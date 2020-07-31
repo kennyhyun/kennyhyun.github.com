@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Hello! starting kenny.yeoyou.net"
-date:   2020-07-31 22:57:05 AEST
+date:   2020-07-31 22:57:05 +1000
 categories: Greeting
 ---
 
