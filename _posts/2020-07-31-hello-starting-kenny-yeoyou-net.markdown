@@ -14,12 +14,19 @@ Stay tuned. The first coming post would be about setting a private VPN server on
 
 BTW, I'm recently working with JS and loving it.
 Still new to Ruby but love Jekill and Gihub.
-Here it is my little promise.
+Here is my little promise.
 
 {% highlight JS %}
 (async () => {
-  const content = await setTheAlgoVpnOnOracleiCloud({ region: 'SouthKoreaNorth', due: 'ASAP' });
-  const post = await dumpTheWalkthrough({ target: 'Github blog', author: 'kennyhyun', content });
+  const content = await setTheAlgoVpnOnOracleiCloud({
+    region: 'SouthKoreaNorth',
+    due: 'ASAP'
+  });
+  const post = await dumpTheWalkthrough({
+    target: 'Github blog',
+    author: 'kennyhyun',
+    content
+   });
   await publishContents(post);
   console.log('You can make your own private VPN server now');
 })();
