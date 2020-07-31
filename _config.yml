@@ -1,0 +1,19 @@
+name: Kenny on IT
+description: A small talks for IT
+meta_description: "Kenny Github Blog. IT stuffs"
+
+markdown: kramdown
+highlighter: rouge
+logo: false
+paginate: 10
+baseurl: /en/
+domain_name: "https://kenny.yeoyou.net"
+google_analytics: "UA-XXXXXXXX-X"
+plugins: [jekyll-paginate]
+
+# Details for the RSS feed generator
+url: ""
+author: "Kenny Yeo"
+
+# Disqus config
+disqus-shortname: "kennyyeoyounet"
