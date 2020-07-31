@@ -2,7 +2,7 @@
 layout: post
 title:  "Hello! starting kenny.yeoyou.net"
 date:   2020-07-31 22:57:05 AEST
-categories: IT Chat Greeting
+categories: Greeting
 ---
 
 Hello there, I'm Kenny. A Korean developer working in Sydney.
