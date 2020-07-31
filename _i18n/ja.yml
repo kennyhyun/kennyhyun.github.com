@@ -1,0 +1,9 @@
+global:
+  english: 英語
+  korean: 韓国語
+  japanese: 日本語
+pages:
+  home: ホーム
+  work: 仕事
+titles:
+  pagination: ページ
