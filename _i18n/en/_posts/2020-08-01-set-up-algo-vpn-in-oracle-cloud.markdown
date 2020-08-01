@@ -1,0 +1,205 @@
+---
+layout: post
+title:  "Set up Algo VPN in Oracle cloud"
+date:   2020-08-01 20:41:01 +1000
+categories: IT
+---
+
+Using VPN abroad sometimes has advantages but paying a VPN service subscription could cost more than it worth.
+
+What if you already have a VPS aboard? There seems to be a free VPS hosting nowadays.
+
+As I told in the previous post,
+I tried to set Algo VPN server in Oracle Cloud.
+
+Hope this dump to help you.
+
+### Create an instance
+
+TODO:
+
+![Insttance1](/assets/images/2020/vpn/instance1.jpg)
+
+![Insttance2](/assets/images/2020/vpn/instance2.jpg)
+
+### Install algo server
+
+Connect to the instance created above and follow the following instructions to install the VPN server.
+
+#### Apt upgrade and install dependencies
+
+```sh
+$ sudo apt update && sudo apt upgrade -y
+$ sudo apt install -y python3-virtualenv unzip vim
+```
+
+Install your editor as well above like vim or nano.
+
+
+#### Download Algo
+
+```sh
+$ wget https://github.com/trailofbits/algo/archive/master.zip
+$ unzip master.zip
+```
+
+#### Set virtual env
+
+```sh
+$ cd algo-master
+$ python3 -m virtualenv --python="$(command -v python3)" .env &&
+  source .env/bin/activate &&
+  python3 -m pip install -U pip virtualenv &&
+  python3 -m pip install -r requirements.txt
+
+```
+
+#### Config users
+
+Edit config.cfg to add users
+
+```sh
+$ vi config.cfg
+```
+
+And add some users
+I recommend you to use like the following since sharing accounts is told to cause some issues
+
+```yml
+users:
+  - phone
+  - phone2
+  - tablet
+  - tablet2
+  - laptop
+  - laptop2
+  - desktop
+  - desktop2
+  - server
+  - server2
+  - guest
+  - guest2
+```
+
+#### Start deployment
+
+It's an interactive script.
+You need to choose options and the script will get the job done.
+
+```sh
+$ ./algo
+```
+
+Most of them would be okay for their default (just enter)
+But you will need the followings answered
+
+```sh
+[Cloud prompt]
+What provider would you like to use?
+--> 11. Install to existing Ubuntu 18.04 or 20.04 server (for more advanced users)
+```
+
+```sh
+[Retain the PKI prompt]
+Do you want to retain the keys (PKI)? (required to add users in the future, but less secure)
+[y/N]
+--> Y
+```
+
+```sh
+[local : pause]
+Enter the public IP address or domain name of your server: (IMPORTANT! This is used to verify the certificate)
+[localhost]
+
+---> [Put the public IP adress of your instance]
+```
+
+
+
+And it will start to install the VPN server.
+
+```python
+'#                       Congratulations!                         #'
+'#                  Your Algo server is running.                  #'
+'# Config files and certificates are in the ./configs/ directory. #'
+'#           Go to https://whoer.net/ after connecting            #'
+'#     and ensure that all your traffic passes through the VPN.   #'
+'#                  Local DNS resolver 172.29.**.**               #'
+'#     The p12 and SSH keys password for new users is *********   #'
+'#     The CA key password is ****************                    #'
+
+```
+
+If something went wrong, it's recommended to restart the whole procedure from the top.
+Terminate the instance and recreate the instance.
+
+#### Copy credentials from the Algo server
+
+Now it's okay to disconnect the ssh connection to the VPN server.
+
+From your local env (eg. laptop), run scp to copy files from the server
+Replace `vpnserver` to your VPN server IP.
+
+```sh
+$ scp -r ubuntu@vpnserver:algo-master/configs .
+```
+
+Now you can use credentials for the VPN server.
+
+### Open the ports for the VPN
+
+VPN server itself is ready now but there is still one more step left.
+The [ports][algo-vpn-ports] are usually closed so it should be allowed manually.
+
+#### Add Security List for VPN
+
+1. Go to Networking > Virtual Cloud Networks
+1. Click the VCN name in the right plan to see the details
+1. Click the Security Lists in the Resources in the Left pane
+1. Click `Create Security List`
+1. Put details in the popup
+    - Name: VPN
+    - Additional Ingress Rule: Ingress Rule 1
+        - Source CIDR: 0.0.0.0/0
+        - Destination Port Range: 4160
+    - Additional Ingress Rule: Ingress Rule 2
+        - Source CIDR: 0.0.0.0/0
+        - IP Protocol: UDP
+        - Destination Port Range: 51820,500,4500
+1. Click `Create Security List` to confirm
+
+![vpn ports](/assets/images/2020/vpn/vpn.ports.jpg)
+
+#### Bind the Security List to the Public Subnet
+
+1. Go to the Instace Details (Compute > Instaces > Instance Details)
+1. Click `Subnet` of Primary VNIC
+1. Click `Add Security List`
+1. Select the `VPN` in the security list pull down in the popup
+1. Click `Add Security List` to confirm
+
+### Client settings
+
+Let me share how I connect my iPad
+
+1. Get the WireGuard in Appstore. (iOS12 or higher is required)
+1. Open the PNG QR code file of the user such as `configs/localhost/wireguard/tablet.png`
+  `configs` directory is the one you copied in the previous step
+1. Launch WireGuard and touch `+` button to Create from QR code
+1. Take the QR code and name it like `tablet`
+1. turn on the connection
+
+That's it. 
+
+Go to the browser and search for `my ip` to confirm your ip is of the one of the VPN server.
+
+WireGuard app is available for Mac and Windows10 as well so you can do similar
+
+### Troubleshooting
+
+When the server is not available, WireGuard app silently fails so network is not available.
+
+Turn off the connection switch in the WireGuard and resolve the server issue and retry.
+
+
+[algo-vpn-ports]: https://github.com/trailofbits/algo/blob/master/docs/firewalls.md
