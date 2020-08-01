@@ -22,7 +22,7 @@ plugins:
 paginate: 10
 
 # Details for the RSS feed generator
-url: ""
+url: "https://kenny.yeoyou.net"
 author: "Kenny Yeo"
 
 # Disqus config
