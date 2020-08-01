@@ -19,7 +19,7 @@ Here is my little promise.
 {% highlight JS %}
 (async () => {
   const content = await setTheAlgoVpnOnOracleiCloud({
-    region: 'SouthKoreaNorth',
+    regionName: 'South Korea North',
     due: 'ASAP'
   });
   const post = await dumpTheWalkthrough({
