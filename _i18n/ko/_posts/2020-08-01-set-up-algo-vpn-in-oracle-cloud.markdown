@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "무료 VPS Oracle cloud에 Algo VPN사용하기"
+title:  "무료 VPS,Oracle Cloud에 Algo VPN사용하기"
 date:   2020-08-01 20:41:01 +1000
 categories: IT
 ---

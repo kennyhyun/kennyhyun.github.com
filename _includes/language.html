@@ -1,0 +1,14 @@
+<section class="language">
+    {% capture link_en %}{{ site.baseurl_root }}{{ page.url}}{% endcapture %}
+    {% capture link_ko %}{{ site.baseurl_root }}/ko{{ page.url}}{% endcapture %}
+    {% capture link_ja %}{{ site.baseurl_root }}/ja{{ page.url}}{% endcapture %}
+    {% if site.lang != "ko" %}
+        <a class="back-button lang-ko" href="{{ link_ko }}">한국어</a>
+    {% endif %}
+    {% if site.lang != "ja" %}
+        <a class="back-button lang-ja" href="{{ link_ja }}">日本語</a>
+    {% endif %}
+    {% if site.lang != "en" %}
+        <a class="back-button lang-en" href="{{ link_en }}">English</a>
+    {% endif %}
+</section>
