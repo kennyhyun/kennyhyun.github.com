@@ -1773,6 +1773,9 @@ body:not(.post-template) .post-title {
     }
 }
 
+nav>.language>.back-button {
+    margin-right: 8px;
+}
 
 /* ==========================================================================
    End of file. Animations should be the last thing here. Do not add stuff

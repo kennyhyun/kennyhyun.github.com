@@ -59,6 +59,18 @@
 
         $(".scroll-down").arctic_scroll();
 
+        $("nav > .language > a").each(function (i, button) {
+          $.ajax({
+            url: button.href,
+            dataType: 'text',
+            type: 'GET',
+            complete: function(xhr){
+              if (xhr.status === 404) {
+                button.style = 'display: none;';
+              }
+            }
+          });
+        });
     });
 
     // smartresize
