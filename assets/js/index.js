@@ -40,7 +40,7 @@
         function updateImageWidth() {
             var $this = $(this),
                 contentWidth = $postContent.outerWidth(), // Width of the content
-                imageWidth = this.naturalWidth; // Original image resolution
+                imageWidth = this.naturalWidth / 2; // Original image resolution
 
             if (imageWidth >= contentWidth) {
                 $this.addClass('full-img');

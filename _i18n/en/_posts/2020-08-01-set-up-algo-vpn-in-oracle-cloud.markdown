@@ -14,13 +14,24 @@ I tried to set Algo VPN server in Oracle Cloud.
 
 Hope this dump to help you.
 
+### Disclaimer
+
+Please use your VPN server in your own responsibility.
+I am not responsible any of the consequences of using Oracle Cloud or VPN.
+
 ### Create an instance
 
-TODO:
+1. Check [Oracle Cloud](https://www.oracle.com/au/cloud/free/){:target="_blank"} and Sign up.
+    - Choose your home region where you intend to be.
+1. Sign into the web console and click `Create a VM instance`.
+  ![Insttance1](/assets/images/2020/vpn/instance1.jpg)
+    - Choose ubuntu minimum and upload your public key
+    - Check [how to create ssh key][howto-ssh]{:target="_blank"} if you don't have one.
+1. Click create and you will see above details.
+  ![Insttance2](/assets/images/2020/vpn/instance2.jpg){:width="80%"}
+    - Memo the public key.
 
-![Insttance1](/assets/images/2020/vpn/instance1.jpg)
-
-![Insttance2](/assets/images/2020/vpn/instance2.jpg)
+Now You can connect into the instance using ssh client.
 
 ### Install algo server
 
@@ -149,7 +160,7 @@ Now you can use credentials for the VPN server.
 ### Open the ports for the VPN
 
 VPN server itself is ready now but there is still one more step left.
-The [ports][algo-vpn-ports] are usually closed so it should be allowed manually.
+The [ports][algo-vpn-ports]{:target="_blank"} are usually closed so it should be allowed manually.
 
 #### Add Security List for VPN
 
@@ -201,5 +212,9 @@ When the server is not available, WireGuard app silently fails so network is not
 
 Turn off the connection switch in the WireGuard and resolve the server issue and retry.
 
+### Further readings
+
+- [Algo VPN](https://github.com/trailofbits/algo#deploy-the-algo-server){: target="_blank" }
 
 [algo-vpn-ports]: https://github.com/trailofbits/algo/blob/master/docs/firewalls.md
+[howto-ssh]: https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
