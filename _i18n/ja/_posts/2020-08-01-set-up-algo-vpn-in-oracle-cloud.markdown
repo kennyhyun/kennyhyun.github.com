@@ -1,34 +1,35 @@
 ---
 layout: post
-title:  "Set up Algo VPN in Oracle cloud"
+title:  "無料VPS、Oracle cloud使ったAlgo VPNの紹介"
 date:   2020-08-01 20:41:01 +1000
 categories: IT
 ---
 
-たまに海外VPNサーバーを使用すると良い時がりますが、そのためにわざわざ毎月費用を支払うまで使いたくはないですよね。
+たまに海外のVPNサーバーがいる時がありますが、そのためにわざわざ月額払ってまで使いたくはないですよね。
 
-しかし、既に仮想サーバーが海外に既にある場合はどうでしょうか？最近無料のサーバーもあるようですね。
+しかし、既に仮想サーバーが海外に既にある場合はどうでしょうか？最近は無料のサーバーも結構あるようです。
 
 以前の記事で予告したように、Oracle CloudにAlgo VPNサーバーをインストールしてみました。
 
-皆さんにこの情報が役立てばとおもいます。
+皆さんにこの情報が役立てればと思います。
 
 ### 免責
+
 VPNを使用に関しては各自の責任で御使用願います。私はOracle CloudやVPNの使用について一切の責任を負いません。
 
 ### インスタンス生成
 
-1. ここ[Oracle Cloud](https://www.oracle.com/au/cloud/free/){:target="_blank"} でアカウントを作成します。
-    - ホームリージョンは、VPNを使用したい場所に設定します。
+1. ここ[Oracle Cloud](https://www.oracle.com/au/cloud/free/){:target="_blank"}でアカウントを作成します
+    - ホームリージョンは、VPNを使用したい場所に設定します
 1. Webコンソールにアクセスして「Create a VM instance」ボタンをクリックします
   ![Insttance1](/assets/images/2020/vpn/instance1.jpg)
-    - ubuntu minimumを選んでpublic keyをアップロードします
-    - sshキーがない場合は、次を参考に作成しますhow to create ssh key
-1. createをクリックすると、次のように詳細を確認することができます。
+    - Ubuntu minimalを選んでpublic keyをアップロードします
+        - sshキーがない場合は、次を参考に作成しますhow to create ssh key
+1. 「create」をクリックすると、次のように詳細を確認することができます
   ![Insttance2](/assets/images/2020/vpn/instance2.jpg){:width="80%"}
     - 公認のIPアドレスをメモっておきます
 
-さて、生成が完了するとssh経由でインスタンスに接続することができます。
+さて、生成が完了するとssh経由でインスタンスに接続できます。
 
 ### Algo VPNのインストール
 
@@ -49,7 +50,7 @@ $ wget https://github.com/trailofbits/algo/archive/master.zip
 $ unzip master.zip
 ```
 
-#### virtual envの設定
+#### virtualenvの設定
 
 ```sh
 $ cd algo-master
@@ -67,7 +68,7 @@ $ python3 -m virtualenv --python="$(command -v python3)" .env &&
 $ vi config.cfg
 ```
 
-ユーザーを共有することは時々問題があるそうなので、次のように十分に追加することをお勧めします。
+ユーザーを共有すると時々問題があるそうなので、次のように十分に追加しておくことをお勧めします。
 
 ```yml
 users:
@@ -87,7 +88,7 @@ users:
 
 #### 配布スクリプトの実行
 
-以下は、対話型のスクリプトです。いくつかの選択肢に応答すると、スクリプトがインストールを完了します。
+次は対話型のスクリプトです。いくつかの選択肢に答えると、スクリプトがインストールを行います。
 
 ```sh
 $ ./algo
@@ -101,7 +102,7 @@ What provider would you like to use?
 
 最初の質問が最も重要です。現在接続したサーバーにインストールするので11番を選択します。
 
-残りのほとんどは、デフォルトの設定でエンターを押すだけで良いですが、次の２つの質問に違う答えを入れます。
+残りのほとんどはデフォルトの設定でエンターを押すだけで良いですが、次の２つの質問に違う答えを入れましょう。
 
 ```sh
 [Retain the PKI prompt]
@@ -117,7 +118,7 @@ Enter the public IP address or domain name of your server: (IMPORTANT! This is u
 ---> [Put the public IP adress of your instance]
 ```
 
-これにより、次のように出力がされ、インストールが完了します。
+これにより、次のように出力され、インストールが終了します。
 
 ```python
 '#                       Congratulations!                         #'
@@ -128,10 +129,9 @@ Enter the public IP address or domain name of your server: (IMPORTANT! This is u
 '#                  Local DNS resolver 172.29.**.**               #'
 '#     The p12 and SSH keys password for new users is *********   #'
 '#     The CA key password is ****************                    #'
-
 ```
 
-何かが間違って最初から再インストールすることが言われます。現在のインスタンスを破棄し、新しいインスタンスを再作成します。
+何かが間違ったら、最初から再インストールすることが良いと言われます。現在のインスタンスを破棄し、新しいインスタンスを再作成します。
 
 #### 接続情報のコピー
 
@@ -147,9 +147,9 @@ $ scp -r ubuntu@vpnserver:algo-master/configs .
 
 ### VPNサーバーのポートの開放
 
-VPNサーバー自体は準備できてますが、まだあと、ひとステップが残っています。
+VPNサーバー自体は用意できてますが、あとひとステップが残っています。
 
-VPN接続に必要なポートは、通常、閉じているので、手動で開けなければなりません。
+VPN接続に必要な[ポート][algo-vpn-ports]{:target="_blank"}は、通常閉じてあるので、手動で開けなければなりません。
 
 #### VPN接続に使用するSecurity Listの作成
 
@@ -176,27 +176,26 @@ Oracle Cloudのウェブコンソールに接続します。
 
 1. Instace Details (Compute > Instaces > Instance Details)を開きます
 1. Primary VNICのSubnetをクリックします
-1. `Add Security List`をクリックします
+1. 「Add Security List」をクリックします
 1. ポップアップのsecurity listプルダウンのVPNを選択します
-1. `Add Security List`をクリックして確定します
+1. 「Add Security List」をクリックして確定します
 
 ### Clientの設定
 
-取りあえずアイパッドを基準の設定法について説明します
+取りあえずアイパッドにての設定法について説明します。
 
-1. AppstoreでWireGuardをインストールします（iOS12以降が必要です）
-1. `configs/localhost/wireguard/tablet.png`のようにユーザーに合ったPNG QRコードを開きます
+1. AppstoreでWireGuardをインストールします（iOS 12以降が必要です）
+1. `configs/localhost/wireguard/tablet.png`のようにユーザーに合ったPNGのQRコードを開きます
   「configs」ディレクトリは、前の手順でコピーしておいたものです
 1. WireGuardを実行し、「+」ボタンをタッチして「Create from QR code」を選択します
 1. QR code撮ってtabletのように名前を付けときます
-1. その接続をオンにします
+1. その生成されたtabletの接続をオンにします
 
-これでVPNに接続されます
+これでVPNに接続されます。
 
-ブラウザを開いてmy ipを検索するとVPN serverのアドレスが表示されるはずです
+ブラウザを開いて「my ip」を検索するとVPN serverのアドレスが表示されるか確認します。
 
-
-WireGuardアプリはMac and Windows10でも使用可能なので、似たような方法で設定できるはずです。
+WireGuardアプリはMac and Windows 10にても使用可能なので、似たような方法で設定でます。
 
 ### トラブルシューティング
 

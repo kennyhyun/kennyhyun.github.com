@@ -25,8 +25,8 @@ I am not responsible any of the consequences of using Oracle Cloud or VPN.
     - Choose your home region where you intend to be.
 1. Sign into the web console and click `Create a VM instance`.
   ![Insttance1](/assets/images/2020/vpn/instance1.jpg)
-    - Choose ubuntu minimum and upload your public key
-    - Check [how to create ssh key][howto-ssh]{:target="_blank"} if you don't have one.
+    - Choose ubuntu minimal and upload your public key
+        - Check [how to create ssh key][howto-ssh]{:target="_blank"} if you don't have one.
 1. Click create and you will see above details.
   ![Insttance2](/assets/images/2020/vpn/instance2.jpg){:width="80%"}
     - Memo the public IP.
@@ -54,7 +54,7 @@ $ wget https://github.com/trailofbits/algo/archive/master.zip
 $ unzip master.zip
 ```
 
-#### Set virtual env
+#### Set virtualenv
 
 ```sh
 $ cd algo-master
@@ -140,7 +140,6 @@ And it will start to install the VPN server and then it show the server details.
 '#                  Local DNS resolver 172.29.**.**               #'
 '#     The p12 and SSH keys password for new users is *********   #'
 '#     The CA key password is ****************                    #'
-
 ```
 
 If something went wrong, it's recommended to restart the whole procedure from the top.

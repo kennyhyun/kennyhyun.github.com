@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Set up Algo VPN in Oracle cloud"
+title:  "무료 VPS Oracle cloud에 Algo VPN사용하기"
 date:   2020-08-01 20:41:01 +1000
 categories: IT
 ---
@@ -24,8 +24,8 @@ VPN사용에 관해선 각자의 책임하에 사용하시길 바랍니다.
     - 홈 리전은 VPN 사용을 원하는 곳으로 설정 합니다.
 1. 웹 콘솔에 접속하여 `Create a VM instance` 버튼을 클릭합니다
   ![Insttance1](/assets/images/2020/vpn/instance1.jpg)
-    - ubuntu minimum 을 고르고 public key를 업로드 합니다
-    - ssh 키가 없다면 다음을 참고해 생성합니다 [how to create ssh key][howto-ssh]{:target="_blank"}
+    - ubuntu minimal을 고르고 public key를 업로드 합니다
+        - ssh 키가 없다면 다음을 참고해 생성합니다 [how to create ssh key][howto-ssh]{:target="_blank"}
 1. create 를 클릭하면 다음과 같이 상세를 확인 할 수 있습니다.
   ![Insttance2](/assets/images/2020/vpn/instance2.jpg){:width="80%"}
     - public IP 를 메모해 둡니다
@@ -53,7 +53,7 @@ $ wget https://github.com/trailofbits/algo/archive/master.zip
 $ unzip master.zip
 ```
 
-#### virtual env 설정
+#### virtualenv 설정
 
 ```sh
 $ cd algo-master
@@ -134,7 +134,6 @@ Enter the public IP address or domain name of your server: (IMPORTANT! This is u
 '#                  Local DNS resolver 172.29.**.**               #'
 '#     The p12 and SSH keys password for new users is *********   #'
 '#     The CA key password is ****************                    #'
-
 ```
 
 뭔가 잘못되면 처음부터 다시 설치하는 것이 권장됩니다. 현재 인스턴스를 폐기하고 새로운 인스턴스를 재생성 합니다.
@@ -196,7 +195,7 @@ Oracle Cloud 웹 콘솔에 접속합니다.
   `configs` 디렉토리는 이전단계에서 복사해 둔 것입니다
 1. WireGuard 를 실행해 `+` 버튼을 터치하고 `Create from QR code`를 선택합니다
 1. QR code를 찍어서 `tablet`과 같이 이름을 붙입니다.
-1. 해당 연결을 켭니다
+1. 생성된 해당 연결을 켭니다
 
 이것으로 VPN에 연결되었습니다
 
