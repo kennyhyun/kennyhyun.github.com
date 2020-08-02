@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Set up Algo VPN in Oracle cloud"
+title:  "Setting up Algo VPN in Oracle cloud"
 date:   2020-08-01 20:41:01 +1000
 categories: IT
 ---
