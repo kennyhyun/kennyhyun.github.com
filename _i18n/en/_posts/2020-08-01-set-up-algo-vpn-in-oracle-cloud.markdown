@@ -7,7 +7,7 @@ categories: IT
 
 Using VPN abroad sometimes has advantages but paying a VPN service subscription could cost more than it worth.
 
-What if you already have a VPS aboard? There seems to be a free VPS hosting nowadays.
+However, what if you already have a VPS aboard? There seems to be a free VPS hosting nowadays.
 
 As I told in the previous post,
 I tried to set Algo VPN server in Oracle Cloud.
@@ -29,11 +29,11 @@ I am not responsible any of the consequences of using Oracle Cloud or VPN.
     - Check [how to create ssh key][howto-ssh]{:target="_blank"} if you don't have one.
 1. Click create and you will see above details.
   ![Insttance2](/assets/images/2020/vpn/instance2.jpg){:width="80%"}
-    - Memo the public key.
+    - Memo the public IP.
 
 Now You can connect into the instance using ssh client.
 
-### Install algo server
+### Install Algo VPN server
 
 Connect to the instance created above and follow the following instructions to install the VPN server.
 
@@ -67,13 +67,12 @@ $ python3 -m virtualenv --python="$(command -v python3)" .env &&
 
 #### Config users
 
-Edit config.cfg to add users
+Edit `config.cfg` to add users
 
 ```sh
 $ vi config.cfg
 ```
 
-And add some users
 I recommend you to use like the following since sharing accounts is told to cause some issues
 
 ```yml
@@ -101,14 +100,17 @@ You need to choose options and the script will get the job done.
 $ ./algo
 ```
 
-Most of them would be okay for their default (just enter)
-But you will need the followings answered
+The first question is the most important
+Put 11 since you are using the localhost which you are using for the installation
 
 ```sh
 [Cloud prompt]
 What provider would you like to use?
 --> 11. Install to existing Ubuntu 18.04 or 20.04 server (for more advanced users)
 ```
+
+Most of the following would be okay for their default (just enter)
+but you will need the followings two answered differently
 
 ```sh
 [Retain the PKI prompt]
@@ -127,7 +129,7 @@ Enter the public IP address or domain name of your server: (IMPORTANT! This is u
 
 
 
-And it will start to install the VPN server.
+And it will start to install the VPN server and then it show the server details.
 
 ```python
 '#                       Congratulations!                         #'
@@ -155,7 +157,7 @@ Replace `vpnserver` to your VPN server IP.
 $ scp -r ubuntu@vpnserver:algo-master/configs .
 ```
 
-Now you can use credentials for the VPN server.
+Now you can use credentials for the VPN server in the `configs` directory.
 
 ### Open the ports for the VPN
 
@@ -163,6 +165,8 @@ VPN server itself is ready now but there is still one more step left.
 The [ports][algo-vpn-ports]{:target="_blank"} are usually closed so it should be allowed manually.
 
 #### Add Security List for VPN
+
+Sign into the web console.
 
 1. Go to Networking > Virtual Cloud Networks
 1. Click the VCN name in the right plan to see the details

@@ -29,7 +29,10 @@ author: "Kenny Yeo"
 disqus-shortname: "kennyyeoyounet"
 
 # jekyll-multiple-languages-plugin
-languages: ["en", "ko", "ja"]
+languages:
+  - en
+  - ko
+  - ja
 
 exclude_from_localizations:
   - assets
