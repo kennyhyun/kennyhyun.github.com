@@ -12,7 +12,7 @@ exclude:
 baseurl: ""
 
 domain_name: "https://kenny.yeoyou.net"
-google_analytics: "UA-174188111-1"
+google_analytics: "UA-xxxxxxxx"
 
 plugins:
   - jekyll-multiple-languages-plugin
