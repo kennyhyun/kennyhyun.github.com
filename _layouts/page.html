@@ -15,7 +15,7 @@ post_class: post-template page-template
 
         {% include language.html %}
 
-        <a class="subscribe-button icon-feed" href="{{'feed.xml' | relative_url }}">Subscribe</a>
+        <a class="subscribe-button icon-feed" href="{{'feed.xml' | relative_url | prepend: site.baseurl }}">Subscribe</a>
     </nav>
 </header>
 
