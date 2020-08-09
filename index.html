@@ -41,7 +41,7 @@ about: 'about.html'
 
     <article class="post">
         <header class="post-header">
-            <h2 class="post-title"><a href="{{ post.url | relative_url | prepend: site.baseurl_root }}">{{ post.title }}</a></h2>
+            <h2 class="post-title"><a href="{{ post.url | relative_url | prepend: site.baseurl }}">{{ post.title }}</a></h2>
         </header>
         <section class="post-excerpt">
             {{ post.excerpt }} <a class="read-more" href="{{ post.url | relative_url | prepend: site.baseurl }}">&raquo;</a>
