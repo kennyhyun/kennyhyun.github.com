@@ -11,6 +11,9 @@ tags:
   - algo
   - wireguard
   - vpn
+  - ipad
+  - phone
+  - android
   - oracle
   - oracle-cloud
 categories: IT
