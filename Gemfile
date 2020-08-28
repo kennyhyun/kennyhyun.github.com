@@ -7,3 +7,5 @@ group :jekyll_plugins do
   gem 'jekyll-paginate', '~> 1.1.0'
   gem 'jekyll-multiple-languages-plugin'
 end
+
+gem "jekyll-seo-tag", "~> 2.6"

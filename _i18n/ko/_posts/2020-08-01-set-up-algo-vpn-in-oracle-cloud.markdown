@@ -1,6 +1,19 @@
 ---
 layout: post
 title:  "무료 VPS,Oracle Cloud에 Algo VPN사용하기"
+description: '
+가끔 해외 VPN서버를 사용하면 좋을 때가 있지만 꼭 그걸위해 매달 비용을 지불해가며 쓰고 싶진 않기도 하죠.
+요즘엔 공짜 서버도 좀 있는것 같군요.
+WireGuard앱은 아이폰, 아이패드, 안드로이드, Windows, 맥 등 다양한 디바이스에서 VPN설정을 해결해 줍니다.
+제가 여기서 공짜VPN서비스를 설정하는 방법을 소개해 드리겠습니다 :)'
+tags:
+  - algovpn
+  - algo
+  - wireguard
+  - vpn
+  - oracle
+  - 오라클
+  - oracle-cloud
 date:   2020-08-01 20:41:01 +1000
 categories: IT
 ---
@@ -9,7 +22,7 @@ categories: IT
 
 하지만 가상서버가 해외에 이미 있다면 어떨까요? 요즘엔 공짜 서버도 좀 있는것 같군요.
 
-이전 포스트에서 예고한 대로, Oracle Cloud에 Algo VPN서버를 설치해 봤습니다.
+그래서 제가 한번 Oracle Cloud에 Algo VPN서버를 설치해 봤습니다.
 
 여러분에게 이 정보가 도움이 되길 바랍니다.
 

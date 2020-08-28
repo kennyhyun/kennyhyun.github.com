@@ -1,7 +1,18 @@
 ---
 layout: post
 title:  "Setting up Algo VPN in Oracle cloud"
+description: 'Using VPN abroad sometimes has advantages but paying a VPN service subscription could cost more than it worth.
+There seems to be some free VPS hosting nowadays so you can use as a VPN server.
+WireGuard app helps you to configure the client like iPhone, Android, iPad, Windows, Mac and more!
+Here I share the walk through how you get a free VPN service :)'
 date:   2020-08-01 20:41:01 +1000
+tags:
+  - algovpn
+  - algo
+  - wireguard
+  - vpn
+  - oracle
+  - oracle-cloud
 categories: IT
 ---
 

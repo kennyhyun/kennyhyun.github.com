@@ -17,6 +17,7 @@ google_analytics: "UA-xxxxxxxx"
 plugins:
   - jekyll-multiple-languages-plugin
   - jekyll-paginate
+  - jekyll-seo-tag
 
 # paginate
 paginate: 10

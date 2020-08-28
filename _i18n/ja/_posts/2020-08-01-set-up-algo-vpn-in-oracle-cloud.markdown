@@ -1,6 +1,16 @@
 ---
 layout: post
 title:  "無料VPS、Oracle cloud使ったAlgo VPNの紹介"
+description: 'たまに海外のVPNサーバーがいる時がありますが、そのためにわざわざ月額払ってまで使いたくはないですよね。
+最近は無料のサーバーも結構あるようです。
+'
+tags:
+  - algovpn
+  - algo
+  - wireguard
+  - vpn
+  - oracle
+  - oracle-cloud
 date:   2020-08-01 20:41:01 +1000
 categories: IT
 ---
@@ -9,7 +19,7 @@ categories: IT
 
 しかし、既に仮想サーバーが海外に既にある場合はどうでしょうか？最近は無料のサーバーも結構あるようです。
 
-以前の記事で予告したように、Oracle CloudにAlgo VPNサーバーをインストールしてみました。
+CloudにAlgo VPNサーバーをインストールしてみました。
 
 皆さんにこの情報が役立てればと思います。
 
