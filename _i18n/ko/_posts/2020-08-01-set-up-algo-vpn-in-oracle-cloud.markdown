@@ -10,6 +10,12 @@ tags:
   - algovpn
   - algo
   - wireguard
+  - android
+  - ipad
+  - iphone
+  - 아이폰
+  - 아이패드
+  - android
   - vpn
   - oracle
   - 오라클
