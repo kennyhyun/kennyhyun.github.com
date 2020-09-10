@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Setting up Windows for developers with WSL2"
-description: 'Many developers use Mac. That would be for building iOS apps. But there are more competetive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing thanks to WSL2. Following this article, you can have a professional develop environment without a hitch.'
+description: 'Many developers use Mac. That would be for building iOS apps. But there are more competitive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing thanks to WSL2. Following this article, you can have a professional develop environment without a hitch.'
 date:   2020-09-10 23:29:21 +1000
 tags:
   - windows
@@ -65,7 +65,7 @@ Now git is a must have when you develop.
 
 ### Install Git with 
 
-Let's [download here](https://git-scm.com/downloads){:target="_blank"} and install or update if you have aleady
+Let's [download here](https://git-scm.com/downloads){:target="_blank"} and install or update if you have already
 
 ```
 C:\>git update-git-for-windows
@@ -88,7 +88,7 @@ and enable symlinks while installing
 
 
 
-Don't worry if you missed the symlink setting. you can set anytime later
+Don't worry if you missed the symlink setting. You can set anytime later
 
 ```
 C:\>git config --global core.autocrlf input
@@ -156,7 +156,7 @@ You can add this to the profile of the Terminal setting.
 
 ### Using Git-bash
 
-Add following to `profiles.list` array in the Teminal setting.
+Add following to `profiles.list` array in the Terminal setting.
 
 ```json
             {
@@ -184,7 +184,7 @@ And more importantly, Docker supports WSL2 now and it routes all the exported po
 
 ** Windows 10 Home edition also supports WSL2.
 
-** You still need the virtualization support in your BIOS or UEFI setting.
+** You still need the virtualisation support in your BIOS or UEFI setting.
 
 ### Installing WSL
 
@@ -204,7 +204,7 @@ C:\> dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /
 Download [the WSL2 kernel](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi){:target="_blank"} and install. Refer to [the official document](https://docs.microsoft.com/en-gb/windows/wsl/wsl2-kernel){:target="_blank"} for details.
 
 1. Install Ubuntu\
-You can use another linux distro but I prefer ubuntu. Using [MS store](https://www.microsoft.com/store/apps/9n6svws3rx71){:target="_blank"}, install the distro
+You can use another Linux distro but I prefer ubuntu. Using [MS store](https://www.microsoft.com/store/apps/9n6svws3rx71){:target="_blank"}, install the distro
 
 1. Set WSL 2 as your default version
 ```sh
@@ -248,7 +248,7 @@ WSL2 shares your host memory but without a limit, it could drain your host memor
 
 It is required to set the maximum at the half of your entire memory. It will not use the maximum memory unless required.
 
-#### Limitting maximum memory usage
+#### Limiting maximum memory usage
 
 Create `%USERPROFILE%\.wslconfig` with the following content
 
