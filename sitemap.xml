@@ -4,7 +4,15 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   {% for post in site.posts %}
     <url>
+
+    {% if site.lang == "ko" %}
+      <loc>{{ site.url }}/ko{{ post.url }}</loc>
+    {% elsif site.lang == "ja" %}
+      <loc>{{ site.url }}/ja{{ post.url }}</loc>
+    {% else %}
       <loc>{{ site.url }}{{ post.url }}</loc>
+    {% endif %}
+
       {% if post.lastmod == null %}
         <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
       {% else %}
@@ -18,7 +26,7 @@
       {% endif %}
 
       {% if post.sitemap.priority == null %}
-          <priority>0.5</priority>
+        <priority>0.5</priority>
       {% else %}
         <priority>{{ post.sitemap.priority }}</priority>
       {% endif %}
