@@ -3,7 +3,7 @@ services:
   jekyll:
     image: jekyll/jekyll:3.8
     container_name: kenny.yeoyou.net
-    mem_limit: 128m
+    mem_limit: 512m # less than 512 could fail bundling sassc
     ports:
       - 4000:4000
     volumes:
