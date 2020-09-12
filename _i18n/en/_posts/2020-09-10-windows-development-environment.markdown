@@ -25,11 +25,11 @@ tags:
 categories: IT
 ---
 
-Many developers use Mac. That would be for building iOS apps. But there are more competetive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing thanks to WSL2. Following this article, you can have a professional develop environment without a hitch.
+Many developers use Mac. That would be for building iOS apps. But there are more competetive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing, thanks to WSL2. Following this article, you can have a professional development environment without a hitch.
 
 This includes...
 
-- Git/Git bash
+- Git, Git bash
 - Windows Terminal
 - WSL2
   - Using Linux GUI apps
@@ -63,7 +63,7 @@ Find more about [using Symlinks in Windows](https://github.com/git-for-windows/g
 
 Now git is a must have when you develop.
 
-### Install Git with 
+### Install Git with Git bash
 
 Let's [download here](https://git-scm.com/downloads){:target="_blank"} and install or update if you have already
 
@@ -112,16 +112,15 @@ Converting LF to CRLF when checking out might seem to be nice but most files can
 Don't worry about LF only files unless you are using Notepad.
 
 
-### Setting up rsa key
+### Setting up RSA key
 
-Github, Gitlab or Bitbucket (or more) use rsa key for authentication.
+Github, Gitlab or Bitbucket (or more) use RSA key for authentication.
 
-This is not only for Windows but you still need this in Windows.
-If you have your key registered to the git service,
+If you have your public key registered to the git service,
 you don't have to provide username and password.
 
 ```cmd
-C:\>ssh-keygen -t rsa -b 2048
+C:\>ssh-keygen -t RSA -b 2048
 ```
 
 and enter a few times to answer using default value
@@ -132,8 +131,8 @@ C:\>type %USERPROFILE%\.ssh\id_rsa.pub
 
 and copy paste the public key to your git service.
 
-If you are using WSL, WSL you will need to this again in WSL side.
-
+This is not only for Windows but you will need in in WSL as well.
+After install WSL, do that again in WSL side.
 
 ## Windows Terminal
 
@@ -145,9 +144,9 @@ In MS Store, you can install [Windows Terminal](https://aka.ms/terminal){:target
 ### CamingoCode font
 
 I like [CamingoCode](https://www.fontsquirrel.com/fonts/camingocode){:target="_blank"}. It is quite slick and clear monospaced font and provides distinctive `I`, `l` and `1` glyphs.
-Download ttf files from the link above and install by right clicking on each ttf files.
+Download TTF files from the link above and install by right clicking on each TTF files.
 
-You can add this to the profile of the Terminal setting.
+You can add this to the profile of the Windows Terminal setting.
 
 ```sh
 	      	      "fontFace": "CamingoCode",
@@ -303,11 +302,11 @@ C:\>ssh localhost
 ```
 It will show ssh prompt to login with your Windows login password.
 
-Once you connect via ssh, you can also use TMUX. That would be the only reason for me to install openssh.
+If you have got used to [Putty](https://putty.org/){:target="_blank"} or [Kitty](http://www.9bis.net/kitty/#!index.md){:target="_blank"}, now you can use it as a terminal.
 
 ![TMUX](/assets/images/2020/wsl2/tmux.jpg){:width="70%" style="margin: 0"}
 
-Tmux is a command line session manager. Visit the [Official Wiki](https://github.com/tmux/tmux/wiki) if you are interested.
+Tmux is a command line session manager. Visit the [Official Wiki](https://github.com/tmux/tmux/wiki){:target="_blank"} if you are interested.
 
 #### ssh without the password
 
@@ -343,7 +342,7 @@ You will have this icon in the system tray.
 
 #### Setting DISPLAY env variable
 
-You will also need to set DISPLAY env var in the WSL side.
+You will also need to set DISPLAY env var in the WSL side. Because the host network address is not fixed, you might need to run the following before you use. Save the following to like `~/setDisplay` and run `source ~/setDisplay` or jusr `. ~/setDisplay`.
 
 ```sh
 $ export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null):0
@@ -359,13 +358,13 @@ $ export LIBGL_ALWAYS_INDIRECT=1
 $ stacer
 ```
 
-These commands will install Stacer and launch in Windows side
+Those commands will install Stacer and launch in Windows side
 
 
 ![firewall](/assets/images/2020/wsl2/stacer.jpg){:width="70%" style="margin: 0"}
 
 
-## Docker desktop
+## Docker Desktop
 
 Installing Docker on Windows is simple.
 Just [download it here](https://hub.docker.com/editions/community/docker-ce-desktop-windows/){:target="_blank"} and install.
@@ -428,14 +427,14 @@ If you feel some building process is quite slow, you can turn on the task manage
 
 ### Chocolatey, package manager
 
-It has so less hassles to install all the tools manually. It is like using Homebrew in mac.
+It has so less hassles to install all the tools manually. It is like using Homebrew (brew) in mac.
 
 [Chocolatey Official Site](https://chocolatey.org/){:target="_blank"}
 
 ### Using Node.js in Windows side
 
 If you are a frontend developer or nodejs developer, you would have already Node.js installed.
-The latest Node.js installer actually includes build tools and package manager for windows, Chocolatey. Don't forget to install necessary tools. Unless you would have some error while building binary packages.
+The latest Node.js installer actually includes build tools and package manager for Windows, Chocolatey. Don't forget to install necessary tools. Unless you would have some error while building binary packages.
 
 ![Node.js Choco](/assets/images/2020/wsl2/install-choco.jpg){:width="70%" style="margin: 0"}
 
@@ -450,6 +449,6 @@ You will need to exclude npm/yarn cache from Defender Antivirus setting.
 
 ## Say Hello to Windows
 
-Thanks to WSL2, Windows machine is also have been developer friendly. Docker performance it not worse than OSX and you can use it on Home Edition too. It actually has a better multiple display experience than OSX and Cleartype will give you a better font rendering in full HD display. Edge browser is now chromium based.
+Thanks to WSL2, Windows machine is also have been developer friendly. Docker performance it not worse than OSX and you can use it on Home Edition too. It actually has a better multiple display experience than OSX and Cleartype will give you a better font rendering in full HD display (might be a personal preference though). Edge browser is now chromium based.
 
-I still don't like too many rebooting but I would choose next dev machine as a Windows laptop.
+I still don't like too many rebooting but I would choose next dev machine as a Windows laptop :)
