@@ -69,7 +69,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  jekyll (~> 4.0)
+  jekyll (~> 4.1)
   jekyll-multiple-languages-plugin
   jekyll-paginate (~> 1.1.0)
   jekyll-seo-tag (~> 2.6)
