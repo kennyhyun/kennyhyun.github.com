@@ -428,7 +428,7 @@ Docker 설치는 Windows에서도 간단합니다. [이곳에서 다운로드](h
 
 또 윈도 쪽에서 node 프로젝트를 사용하시더라도 Git Bash를 사용해 보세요. 사용중인 프로젝트에 bash 스크립트가 사용되더라도 실패없이 사용 할 수 있습니다.
 
-Defender Antivirus 예외설정에 Yarn/Npm 캐시를 꼭 등록하세요. 설치과정이 눈에 띄게 빨라질 것입니다.
+Defender Antivirus 예외설정에 Yarn/Npm 캐시를 꼭 등록하세요. Yarn/npm 패키지 설치과정이 눈에 띄게 빨라질 것입니다.
 
 ```cmd
 %APPDATA%\npm-cache
