@@ -407,7 +407,7 @@ Docker 설치는 Windows에서도 간단합니다. [이곳에서 다운로드](h
 
 소스 디렉토리를 예외등록하게 되면 빌드 성능의 저하를 막을 수 있습니다.
 
-만약 빌드 성능이 너무 느리다 싶을 때엔 타스크 매니저를 띄우고 혹시 `Antimalware Service Executable` 프로세스가 CPU 자원을 높게 사용하고 있지 않은지 확인해 보세요 CPU over 10%~20%정도 사용하고 있다면, 예외등록 추가를 고려해 보세요. 빌드 툴에 따라 %APPDATA% 등에 파일을 추가할 수도 있습니다.
+만약 빌드 성능이 너무 느리다 싶을 때엔 타스크 매니저를 띄우고 혹시 `Antimalware Service Executable` 프로세스가 CPU 자원을 높게 사용하고 있지 않은지 확인해 보세요 CPU 자원을 10%~20% 또는 그 이상 사용하고 있다면, 예외등록 추가를 고려해 보세요. 빌드 툴에 따라 %APPDATA% 등에 파일을 추가할 수도 있습니다.
 
 ![Antivirus Exclusion](/assets/images/2020/wsl2/exclusion.jpg){:width="70%" style="margin: 0"}
 
