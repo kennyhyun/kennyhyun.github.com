@@ -211,7 +211,7 @@ C:\> wsl --set-default-version 2
 ```
 
 1. Set default username\
-Running Ubuntu from the start menu will need you to input the username and password
+Running Ubuntu from the start menu will need you to input the username and password for the first time once
 
 ### Accessing WSL directories
 
