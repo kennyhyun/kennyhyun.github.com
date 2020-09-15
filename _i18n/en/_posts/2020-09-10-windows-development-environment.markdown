@@ -410,7 +410,7 @@ If you are using windows dev tools you can keep source files in Windows side.
 
 If you want to avoid hassles, just stay only in the WSL side.
 
-### Defender Antivirus Exclusion
+## Defender Antivirus Exclusion
 
 You can put the all repo, project files in one directory in your home directory such as `Projects`. Usually it could create many automatically generated files in it.
 
