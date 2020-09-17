@@ -312,7 +312,7 @@ Tmux is a command line session manager. Visit the [Official Wiki](https://github
 
 If you register your public key (id_rsa.pub usually) to `.ssh/authorized_keys` file, you can connect without the password.
 
-But if you belongs to the Administrators group, you should add the public key to `%programdata%/ssh/administrators_authorized_keys`.
+But if you belong to the Administrators group, you should add the public key to `%programdata%/ssh/administrators_authorized_keys`.
 
 ### Using Linux GUI Apps
 
