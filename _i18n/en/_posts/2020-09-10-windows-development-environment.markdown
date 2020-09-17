@@ -245,7 +245,7 @@ Replace `<username>` with yours and `^x`, `y`, `enter` to save and quit Nano.
 
 WSL2 shares your host memory but without a limit, it could drain your host memory.
 
-It is required to set the maximum at the half of your entire memory. It will not use the maximum memory unless required.
+It is required to set the maximum at half of your entire memory. It will not use the maximum memory unless required.
 
 #### Limiting maximum memory usage
 
