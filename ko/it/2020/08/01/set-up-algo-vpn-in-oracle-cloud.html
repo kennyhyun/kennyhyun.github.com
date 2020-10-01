@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    
+    <!-- naver web master -->
+    <meta name="robots" content="index,follow" />
+    <meta name="NaverBot" content="All" />
+    <meta name="NaverBot" content="index,follow" />
+    <meta name="Yeti" content="All" />
+    <meta name="Yeti" content="index,follow" />
+
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>무료 VPS,Oracle Cloud에 Algo VPN사용하기 | Kenny on IT</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="무료 VPS,Oracle Cloud에 Algo VPN사용하기" />
+<meta name="author" content="Kenny Yeo" />
+<meta property="og:locale" content="ko" />
+<meta name="description" content="가끔 해외 VPN서버를 사용하면 좋을 때가 있지만 꼭 그걸위해 매달 비용을 지불해가며 쓰고 싶진 않기도 하죠. 요즘엔 공짜 서버도 좀 있는것 같군요. WireGuard앱은 아이폰, 아이패드, 안드로이드, Windows, 맥 등 다양한 디바이스에서 VPN설정을 해결해 줍니다. 제가 여기서 공짜VPN서비스를 설정하는 방법을 소개해 드리겠습니다 :)" />
+<meta property="og:description" content="가끔 해외 VPN서버를 사용하면 좋을 때가 있지만 꼭 그걸위해 매달 비용을 지불해가며 쓰고 싶진 않기도 하죠. 요즘엔 공짜 서버도 좀 있는것 같군요. WireGuard앱은 아이폰, 아이패드, 안드로이드, Windows, 맥 등 다양한 디바이스에서 VPN설정을 해결해 줍니다. 제가 여기서 공짜VPN서비스를 설정하는 방법을 소개해 드리겠습니다 :)" />
+<link rel="canonical" href="https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html" />
+<meta property="og:url" content="https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html" />
+<meta property="og:site_name" content="Kenny on IT" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-01T10:41:01+00:00" />
+<script type="application/ld+json">
+{"headline":"무료 VPS,Oracle Cloud에 Algo VPN사용하기","dateModified":"2020-08-01T10:41:01+00:00","datePublished":"2020-08-01T10:41:01+00:00","author":{"@type":"Person","name":"Kenny Yeo"},"url":"https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html","description":"가끔 해외 VPN서버를 사용하면 좋을 때가 있지만 꼭 그걸위해 매달 비용을 지불해가며 쓰고 싶진 않기도 하죠. 요즘엔 공짜 서버도 좀 있는것 같군요. WireGuard앱은 아이폰, 아이패드, 안드로이드, Windows, 맥 등 다양한 디바이스에서 VPN설정을 해결해 줍니다. 제가 여기서 공짜VPN서비스를 설정하는 방법을 소개해 드리겠습니다 :)","mainEntityOfPage":{"@type":"WebPage","@id":"https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    
+    <meta name="keywords" content="algovpn, algo, wireguard, android, ipad, iphone, 아이폰, 아이패드, android, vpn, oracle, 오라클, oracle-cloud"/>
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css " />
+    
+    <meta name="naver-site-verification" content="c2e81e9ed92ee39337612e88df3828e3e21fc8b9" />
+
+</head>
+<body class="home-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+
+        <section class="language">
+    
+    
+    
+    
+    
+        <a class="back-button lang-ja" href="/ja/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html">日本語</a>
+    
+    
+        <a class="back-button lang-en" href="/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html">English</a>
+    
+</section>
+
+
+        <a class="subscribe-button icon-feed" href="/ko/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">무료 VPS,Oracle Cloud에 Algo VPN사용하기</h1>
+            <section class="post-meta">
+                
+                    on IT
+                
+                <time class="post-date" datetime="2020-08-01">01 Aug 2020</time>
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="https://kenny.yeoyou.net">
+                
+                    <span class="blog-title">Kenny on IT</span>
+                
+            </a>
+        </header> -->
+
+        <!-- <span class="post-meta">
+            <time datetime="2020-08-01">01 Aug 2020</time>
+            
+                on IT
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">무료 VPS,Oracle Cloud에 Algo VPN사용하기</h1> -->
+
+        <section class="post-content">
+            <p>가끔 해외 VPN서버를 사용하면 좋을 때가 있지만 꼭 그걸위해 매달 비용을 지불해가며 쓰고 싶진 않기도 하죠.</p>
+
+<p>하지만 가상서버가 해외에 이미 있다면 어떨까요? 요즘엔 공짜 서버도 좀 있는것 같군요.</p>
+
+<p>그래서 제가 한번 Oracle Cloud에 Algo VPN서버를 설치해 봤습니다.</p>
+
+<p>여러분에게 이 정보가 도움이 되길 바랍니다.</p>
+
+<h3 id="면책">면책</h3>
+
+<p>VPN사용에 관해선 각자의 책임하에 사용하시길 바랍니다.
+저는 Oracle Cloud나 VPN사용에 대해 어떠한 책임도 지지 않습니다.</p>
+
+<h3 id="인스턴스-생성">인스턴스 생성</h3>
+
+<ol>
+  <li>이곳 <a href="https://www.oracle.com/au/cloud/free/" target="_blank">Oracle Cloud</a> 에서 계정을 생성합니다.
+    <ul>
+      <li>홈 리전은 VPN 사용을 원하는 곳으로 설정 합니다.</li>
+    </ul>
+  </li>
+  <li>웹 콘솔에 접속하여 <code class="language-plaintext highlighter-rouge">Create a VM instance</code> 버튼을 클릭합니다
+  <img src="/assets/images/2020/vpn/instance1.jpg" alt="Insttance1" />
+    <ul>
+      <li>ubuntu minimal을 고르고 public key를 업로드 합니다
+        <ul>
+          <li>ssh 키가 없다면 다음을 참고해 생성합니다 <a href="https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" target="_blank">how to create ssh key</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>create 를 클릭하면 다음과 같이 상세를 확인 할 수 있습니다.
+  <img src="/assets/images/2020/vpn/instance2.jpg" alt="Insttance2" width="80%" />
+    <ul>
+      <li>public IP 를 메모해 둡니다</li>
+    </ul>
+  </li>
+</ol>
+
+<p>이제 생성이 완료되면 ssh를 통해 인스턴스로 접속 할 수 있습니다.</p>
+
+<h3 id="algo-vpn-설치">Algo VPN 설치</h3>
+
+<p>위에서 생성한 인스턴스에 접속하고 다음과 같이 VPN서버를 설치합니다</p>
+
+<h4 id="apt-패키지-설치">Apt 패키지 설치</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>
+<span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> python3-virtualenv unzip vim
+</code></pre></div></div>
+
+<p>원하는 에디터도 잊지않고 추가합니다. vim이 익숙치 않으시면 대신 nano를 사용하세요</p>
+
+<h4 id="algo-다운로드">Algo 다운로드</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>wget https://github.com/trailofbits/algo/archive/master.zip
+<span class="nv">$ </span>unzip master.zip
+</code></pre></div></div>
+
+<h4 id="virtualenv-설정">virtualenv 설정</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd </span>algo-master
+<span class="nv">$ </span>python3 <span class="nt">-m</span> virtualenv <span class="nt">--python</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">command</span> <span class="nt">-v</span> python3<span class="si">)</span><span class="s2">"</span> .env <span class="o">&amp;&amp;</span>
+  <span class="nb">source</span> .env/bin/activate <span class="o">&amp;&amp;</span>
+  python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">-U</span> pip virtualenv <span class="o">&amp;&amp;</span>
+  python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div>
+
+<h4 id="사용자-추가">사용자 추가</h4>
+
+<p><code class="language-plaintext highlighter-rouge">config.cfg</code> 를 편집하여 사용자를 추가합니다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>vi config.cfg
+</code></pre></div></div>
+
+<p>사용자를 공유하는 것에는 가끔 문제가 있다고 하므로 다음과 같이 넉넉히 추가하는것을 추천합니다.</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">users</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">phone</span>
+  <span class="pi">-</span> <span class="s">phone2</span>
+  <span class="pi">-</span> <span class="s">tablet</span>
+  <span class="pi">-</span> <span class="s">tablet2</span>
+  <span class="pi">-</span> <span class="s">laptop</span>
+  <span class="pi">-</span> <span class="s">laptop2</span>
+  <span class="pi">-</span> <span class="s">desktop</span>
+  <span class="pi">-</span> <span class="s">desktop2</span>
+  <span class="pi">-</span> <span class="s">server</span>
+  <span class="pi">-</span> <span class="s">server2</span>
+  <span class="pi">-</span> <span class="s">guest</span>
+  <span class="pi">-</span> <span class="s">guest2</span>
+</code></pre></div></div>
+
+<h4 id="배포스크립트-실행">배포스크립트 실행</h4>
+
+<p>다음은 대화형 스크립트 입니다.
+몇가지 선택사항에 대해 응답하고 나면 스크립트가 설치를 완료합니다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./algo
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Cloud prompt]
+What provider would you like to use?
+<span class="nt">--</span><span class="o">&gt;</span> 11. Install to existing Ubuntu 18.04 or 20.04 server <span class="o">(</span><span class="k">for </span>more advanced <span class="nb">users</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>첫 질문이 가장 중요합니다.
+현재 접속한 서버에 설치할 것 이므로 11번을 선택합니다.</p>
+
+<p>나머지 대부분은 기본 설정으로 엔터만 눌러 진행하면 되지만 다음 두 질문들에는 답변을 따로 해 줍니다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Retain the PKI prompt]
+Do you want to retain the keys <span class="o">(</span>PKI<span class="o">)</span>? <span class="o">(</span>required to add <span class="nb">users </span><span class="k">in </span>the future, but less secure<span class="o">)</span>
+<span class="o">[</span>y/N]
+<span class="nt">--</span><span class="o">&gt;</span> Y
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="nb">local</span> : pause]
+Enter the public IP address or domain name of your server: <span class="o">(</span>IMPORTANT! This is used to verify the certificate<span class="o">)</span>
+<span class="o">[</span>localhost]
+<span class="nt">---</span><span class="o">&gt;</span> <span class="o">[</span>Put the public IP adress of your instance]
+</code></pre></div></div>
+
+<p>그러면 다음과 같이 출력이되고 설치가 완료 됩니다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">'#                       Congratulations!                         #'</span>
+<span class="s">'#                  Your Algo server is running.                  #'</span>
+<span class="s">'# Config files and certificates are in the ./configs/ directory. #'</span>
+<span class="s">'#           Go to https://whoer.net/ after connecting            #'</span>
+<span class="s">'#     and ensure that all your traffic passes through the VPN.   #'</span>
+<span class="s">'#                  Local DNS resolver 172.29.**.**               #'</span>
+<span class="s">'#     The p12 and SSH keys password for new users is *********   #'</span>
+<span class="s">'#     The CA key password is ****************                    #'</span>
+</code></pre></div></div>
+
+<p>뭔가 잘못되면 처음부터 다시 설치하는 것이 권장됩니다. 현재 인스턴스를 폐기하고 새로운 인스턴스를 재생성 합니다.</p>
+
+<h4 id="접속정보-복사">접속정보 복사</h4>
+
+<p>이제 VPN 서버의 ssh접속은 종료해도 됩니다.</p>
+
+<p>지금 사용하는 로컬 환경에서 scp명령으로 접속정보를 복사합니다.
+아래의 <code class="language-plaintext highlighter-rouge">vpnserver</code>은 VPN서버의 공인 IP로 대체합니다.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>scp <span class="nt">-r</span> ubuntu@vpnserver:algo-master/configs <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>이제 <code class="language-plaintext highlighter-rouge">configs</code> 디렉토리에 있는 접속정보를 사용 할 수 있습니다.</p>
+
+<h3 id="vpn-서버-포트-열기">VPN 서버 포트 열기</h3>
+
+<p>VPN 서버 자체는 준비가 되었지만 아직 한가지 스텝이 남아 있습니다.</p>
+
+<p>VPN접속에 필요한 <a href="https://github.com/trailofbits/algo/blob/master/docs/firewalls.md" target="_blank">포트들</a>은 보통 닫혀있으므로 수동으로 열어줘야 합니다.</p>
+
+<h4 id="vpn-접속에-사용할-security-list-생성">VPN 접속에 사용할 Security List 생성</h4>
+
+<p>Oracle Cloud 웹 콘솔에 접속합니다.</p>
+
+<ol>
+  <li>Networking &gt; Virtual Cloud Networks 로 갑니다</li>
+  <li>오른쪽의 VCN name을 클릭합니다</li>
+  <li>왼쪽의 <code class="language-plaintext highlighter-rouge">Security Lists</code>를 클릭합니다</li>
+  <li><code class="language-plaintext highlighter-rouge">Create Security List</code>를 클립합니다</li>
+  <li>팝업창에 다음과 같이 입력합니다
+    <ul>
+      <li>Name: VPN</li>
+      <li>Additional Ingress Rule: Ingress Rule 1
+        <ul>
+          <li>Source CIDR: 0.0.0.0/0</li>
+          <li>Destination Port Range: 4160</li>
+        </ul>
+      </li>
+      <li>Additional Ingress Rule: Ingress Rule 2
+        <ul>
+          <li>Source CIDR: 0.0.0.0/0</li>
+          <li>IP Protocol: UDP</li>
+          <li>Destination Port Range: 51820,500,4500</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Create Security List</code>을 클릭하여 확정합니다</li>
+</ol>
+
+<p><img src="/assets/images/2020/vpn/vpn.ports.jpg" alt="vpn ports" /></p>
+
+<h4 id="security-list를-public-subnet에-연결하기">Security List를 Public Subnet에 연결하기</h4>
+
+<ol>
+  <li>Instace Details (Compute &gt; Instaces &gt; Instance Details)로 갑니다</li>
+  <li>Primary VNIC의 <code class="language-plaintext highlighter-rouge">Subnet</code>을 클릭합니다</li>
+  <li><code class="language-plaintext highlighter-rouge">Add Security List</code>을 클릭합니다</li>
+  <li>팝업창에서 security list 풀다운에 <code class="language-plaintext highlighter-rouge">VPN</code>을 선택합니다</li>
+  <li><code class="language-plaintext highlighter-rouge">Add Security List</code>를 클릭하여 확정합니다</li>
+</ol>
+
+<h3 id="client-설정하기">Client 설정하기</h3>
+
+<p>일단 iPad를 기준으로 설정방법에 대해 설명하겠습니다</p>
+
+<ol>
+  <li>Appstore에서 WireGuard 를 설치합니다 (iOS12 또는 상위버전이 필요합니다)</li>
+  <li><code class="language-plaintext highlighter-rouge">configs/localhost/wireguard/tablet.png</code>와 같이 사용자에 맞는 PNG QR 코드를 엽니다
+  <code class="language-plaintext highlighter-rouge">configs</code> 디렉토리는 이전단계에서 복사해 둔 것입니다</li>
+  <li>WireGuard 를 실행해 <code class="language-plaintext highlighter-rouge">+</code> 버튼을 터치하고 <code class="language-plaintext highlighter-rouge">Create from QR code</code>를 선택합니다</li>
+  <li>QR code를 찍어서 <code class="language-plaintext highlighter-rouge">tablet</code>과 같이 이름을 붙입니다.</li>
+  <li>생성된 해당 연결을 켭니다</li>
+</ol>
+
+<p>이것으로 VPN에 연결되었습니다</p>
+
+<p>브라우저를 열어 <code class="language-plaintext highlighter-rouge">my ip</code>를 검색하면 VPN server의 주소가 표시될 것입니다</p>
+
+<p>WireGuard 앱은 Mac and Windows10 에서도 사용 가능하므로 비슷한 방법으로 설정 가능 합니다.</p>
+
+<h3 id="문제해결">문제해결</h3>
+
+<p>서버에 연결할 수 없어도 WireGuard 앱은 조용히 실패하고 인터넷이 불통이 됩니다
+인터넷 연결에 문제가 있으면 VPN 커넥션을 종료하고 서버 문제를 해결한 다음에 다시 시도 하세요</p>
+
+<h3 id="더-읽어보기">더 읽어보기</h3>
+
+<ul>
+  <li><a href="https://github.com/trailofbits/algo#deploy-the-algo-server" target="_blank">Algo VPN</a></li>
+</ul>
+
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">Kenny Yeo's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> Kenny Yeo </h4>
+                    <!-- Author Bio -->
+                    <p>
+                      A NodeJS Fullstack SW Engineer at Whitech Software Solution(a Fujifilm group company)<br />
+                      <a href="https://github.com/kennyhyun" target="_blank">Github</a> | <a href="https://www.linkedin.com/in/khyunyeo/">Linkedin</a>
+                    </p>
+                </section>
+            
+
+            <!-- Share links section -->
+            <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text=무료 VPS,Oracle Cloud에 Algo VPN사용하기&amp;url=https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html"
+        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+            <!-- Disqus comments -->
+            
+                <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+     this.page.url = "https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html";
+     this.page.identifier = "/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html";
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://kennyyeoyounet.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+</section>
+
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="/ko">Kenny on IT</a> &copy; 
+              2020 &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxxxxxxx"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-xxxxxxxx');
+    </script>
+</body>
+</html>

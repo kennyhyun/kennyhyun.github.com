@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kenny.yeoyou.net/sitemap_index.xml

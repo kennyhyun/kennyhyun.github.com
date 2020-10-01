@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    
+    <!-- naver web master -->
+    <meta name="robots" content="index,follow" />
+    <meta name="NaverBot" content="All" />
+    <meta name="NaverBot" content="index,follow" />
+    <meta name="Yeti" content="All" />
+    <meta name="Yeti" content="index,follow" />
+
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Setting up Algo VPN in Oracle cloud | Kenny on IT</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Setting up Algo VPN in Oracle cloud" />
+<meta name="author" content="Kenny Yeo" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Using VPN abroad sometimes has advantages but paying a VPN service subscription could cost more than it worth. There seems to be some free VPS hosting nowadays so you can use as a VPN server. WireGuard app helps you to configure the client like iPhone, Android, iPad, Windows, Mac and more! Here I share the walk through how you get a free VPN service :)" />
+<meta property="og:description" content="Using VPN abroad sometimes has advantages but paying a VPN service subscription could cost more than it worth. There seems to be some free VPS hosting nowadays so you can use as a VPN server. WireGuard app helps you to configure the client like iPhone, Android, iPad, Windows, Mac and more! Here I share the walk through how you get a free VPN service :)" />
+<link rel="canonical" href="https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html" />
+<meta property="og:url" content="https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html" />
+<meta property="og:site_name" content="Kenny on IT" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-01T10:41:01+00:00" />
+<script type="application/ld+json">
+{"headline":"Setting up Algo VPN in Oracle cloud","dateModified":"2020-08-01T10:41:01+00:00","datePublished":"2020-08-01T10:41:01+00:00","author":{"@type":"Person","name":"Kenny Yeo"},"url":"https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html","description":"Using VPN abroad sometimes has advantages but paying a VPN service subscription could cost more than it worth. There seems to be some free VPS hosting nowadays so you can use as a VPN server. WireGuard app helps you to configure the client like iPhone, Android, iPad, Windows, Mac and more! Here I share the walk through how you get a free VPN service :)","mainEntityOfPage":{"@type":"WebPage","@id":"https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    
+    <meta name="keywords" content="algovpn, algo, wireguard, vpn, ipad, phone, android, oracle, oracle-cloud"/>
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css " />
+    
+    <meta name="naver-site-verification" content="c2e81e9ed92ee39337612e88df3828e3e21fc8b9" />
+
+</head>
+<body class="home-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+
+        <section class="language">
+    
+    
+    
+    
+        <a class="back-button lang-ko" href="/ko/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html">한국어</a>
+    
+    
+        <a class="back-button lang-ja" href="/ja/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html">日本語</a>
+    
+    
+</section>
+
+
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Setting up Algo VPN in Oracle cloud</h1>
+            <section class="post-meta">
+                
+                    on IT
+                
+                <time class="post-date" datetime="2020-08-01">01 Aug 2020</time>
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="https://kenny.yeoyou.net">
+                
+                    <span class="blog-title">Kenny on IT</span>
+                
+            </a>
+        </header> -->
+
+        <!-- <span class="post-meta">
+            <time datetime="2020-08-01">01 Aug 2020</time>
+            
+                on IT
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Setting up Algo VPN in Oracle cloud</h1> -->
+
+        <section class="post-content">
+            <p>Using VPN abroad sometimes has advantages but paying a VPN service subscription could cost more than it worth.</p>
+
+<p>However, what if you already have a VPS aboard? There seems to be a free VPS hosting nowadays.</p>
+
+<p>As I told in the previous post,
+I tried to set Algo VPN server in Oracle Cloud.</p>
+
+<p>Hope this dump to help you.</p>
+
+<h3 id="disclaimer">Disclaimer</h3>
+
+<p>Please use your VPN server in your own responsibility.
+I am not responsible any of the consequences of using Oracle Cloud or VPN.</p>
+
+<h3 id="create-an-instance">Create an instance</h3>
+
+<ol>
+  <li>Check <a href="https://www.oracle.com/au/cloud/free/" target="_blank">Oracle Cloud</a> and Sign up.
+    <ul>
+      <li>Choose your home region where you intend to be.</li>
+    </ul>
+  </li>
+  <li>Sign into the web console and click <code class="language-plaintext highlighter-rouge">Create a VM instance</code>.
+  <img src="/assets/images/2020/vpn/instance1.jpg" alt="Insttance1" />
+    <ul>
+      <li>Choose ubuntu minimal and upload your public key
+        <ul>
+          <li>Check <a href="https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" target="_blank">how to create ssh key</a> if you don’t have one.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Click create and you will see above details.
+  <img src="/assets/images/2020/vpn/instance2.jpg" alt="Insttance2" width="80%" />
+    <ul>
+      <li>Memo the public IP.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Now You can connect into the instance using ssh client.</p>
+
+<h3 id="install-algo-vpn-server">Install Algo VPN server</h3>
+
+<p>Connect to the instance created above and follow the following instructions to install the VPN server.</p>
+
+<h4 id="apt-upgrade-and-install-dependencies">Apt upgrade and install dependencies</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>
+<span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> python3-virtualenv unzip vim
+</code></pre></div></div>
+
+<p>Install your editor as well above like vim or nano.</p>
+
+<h4 id="download-algo">Download Algo</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>wget https://github.com/trailofbits/algo/archive/master.zip
+<span class="nv">$ </span>unzip master.zip
+</code></pre></div></div>
+
+<h4 id="set-virtualenv">Set virtualenv</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">cd </span>algo-master
+<span class="nv">$ </span>python3 <span class="nt">-m</span> virtualenv <span class="nt">--python</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">command</span> <span class="nt">-v</span> python3<span class="si">)</span><span class="s2">"</span> .env <span class="o">&amp;&amp;</span>
+  <span class="nb">source</span> .env/bin/activate <span class="o">&amp;&amp;</span>
+  python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">-U</span> pip virtualenv <span class="o">&amp;&amp;</span>
+  python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+
+</code></pre></div></div>
+
+<h4 id="config-users">Config users</h4>
+
+<p>Edit <code class="language-plaintext highlighter-rouge">config.cfg</code> to add users</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>vi config.cfg
+</code></pre></div></div>
+
+<p>I recommend you to use like the following since sharing accounts is told to cause some issues</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">users</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">phone</span>
+  <span class="pi">-</span> <span class="s">phone2</span>
+  <span class="pi">-</span> <span class="s">tablet</span>
+  <span class="pi">-</span> <span class="s">tablet2</span>
+  <span class="pi">-</span> <span class="s">laptop</span>
+  <span class="pi">-</span> <span class="s">laptop2</span>
+  <span class="pi">-</span> <span class="s">desktop</span>
+  <span class="pi">-</span> <span class="s">desktop2</span>
+  <span class="pi">-</span> <span class="s">server</span>
+  <span class="pi">-</span> <span class="s">server2</span>
+  <span class="pi">-</span> <span class="s">guest</span>
+  <span class="pi">-</span> <span class="s">guest2</span>
+</code></pre></div></div>
+
+<h4 id="start-deployment">Start deployment</h4>
+
+<p>It’s an interactive script.
+You need to choose options and the script will get the job done.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./algo
+</code></pre></div></div>
+
+<p>The first question is the most important
+Put 11 since you are using the localhost which you are using for the installation</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Cloud prompt]
+What provider would you like to use?
+<span class="nt">--</span><span class="o">&gt;</span> 11. Install to existing Ubuntu 18.04 or 20.04 server <span class="o">(</span><span class="k">for </span>more advanced <span class="nb">users</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Most of the following would be okay for their default (just enter)
+but you will need the followings two answered differently</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Retain the PKI prompt]
+Do you want to retain the keys <span class="o">(</span>PKI<span class="o">)</span>? <span class="o">(</span>required to add <span class="nb">users </span><span class="k">in </span>the future, but less secure<span class="o">)</span>
+<span class="o">[</span>y/N]
+<span class="nt">--</span><span class="o">&gt;</span> Y
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span><span class="nb">local</span> : pause]
+Enter the public IP address or domain name of your server: <span class="o">(</span>IMPORTANT! This is used to verify the certificate<span class="o">)</span>
+<span class="o">[</span>localhost]
+
+<span class="nt">---</span><span class="o">&gt;</span> <span class="o">[</span>Put the public IP adress of your instance]
+</code></pre></div></div>
+
+<p>And it will start to install the VPN server and then it show the server details.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">'#                       Congratulations!                         #'</span>
+<span class="s">'#                  Your Algo server is running.                  #'</span>
+<span class="s">'# Config files and certificates are in the ./configs/ directory. #'</span>
+<span class="s">'#           Go to https://whoer.net/ after connecting            #'</span>
+<span class="s">'#     and ensure that all your traffic passes through the VPN.   #'</span>
+<span class="s">'#                  Local DNS resolver 172.29.**.**               #'</span>
+<span class="s">'#     The p12 and SSH keys password for new users is *********   #'</span>
+<span class="s">'#     The CA key password is ****************                    #'</span>
+</code></pre></div></div>
+
+<p>If something went wrong, it’s recommended to restart the whole procedure from the top.
+Terminate the instance and recreate the instance.</p>
+
+<h4 id="copy-credentials-from-the-algo-server">Copy credentials from the Algo server</h4>
+
+<p>Now it’s okay to disconnect the ssh connection to the VPN server.</p>
+
+<p>From your local env (eg. laptop), run scp to copy files from the server
+Replace <code class="language-plaintext highlighter-rouge">vpnserver</code> to your VPN server IP.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>scp <span class="nt">-r</span> ubuntu@vpnserver:algo-master/configs <span class="nb">.</span>
+</code></pre></div></div>
+
+<p>Now you can use credentials for the VPN server in the <code class="language-plaintext highlighter-rouge">configs</code> directory.</p>
+
+<h3 id="open-the-ports-for-the-vpn">Open the ports for the VPN</h3>
+
+<p>VPN server itself is ready now but there is still one more step left.
+The <a href="https://github.com/trailofbits/algo/blob/master/docs/firewalls.md" target="_blank">ports</a> are usually closed so it should be allowed manually.</p>
+
+<h4 id="add-security-list-for-vpn">Add Security List for VPN</h4>
+
+<p>Sign into the web console.</p>
+
+<ol>
+  <li>Go to Networking &gt; Virtual Cloud Networks</li>
+  <li>Click the VCN name in the right plan to see the details</li>
+  <li>Click the Security Lists in the Resources in the Left pane</li>
+  <li>Click <code class="language-plaintext highlighter-rouge">Create Security List</code></li>
+  <li>Put details in the popup
+    <ul>
+      <li>Name: VPN</li>
+      <li>Additional Ingress Rule: Ingress Rule 1
+        <ul>
+          <li>Source CIDR: 0.0.0.0/0</li>
+          <li>Destination Port Range: 4160</li>
+        </ul>
+      </li>
+      <li>Additional Ingress Rule: Ingress Rule 2
+        <ul>
+          <li>Source CIDR: 0.0.0.0/0</li>
+          <li>IP Protocol: UDP</li>
+          <li>Destination Port Range: 51820,500,4500</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Click <code class="language-plaintext highlighter-rouge">Create Security List</code> to confirm</li>
+</ol>
+
+<p><img src="/assets/images/2020/vpn/vpn.ports.jpg" alt="vpn ports" /></p>
+
+<h4 id="bind-the-security-list-to-the-public-subnet">Bind the Security List to the Public Subnet</h4>
+
+<ol>
+  <li>Go to the Instace Details (Compute &gt; Instaces &gt; Instance Details)</li>
+  <li>Click <code class="language-plaintext highlighter-rouge">Subnet</code> of Primary VNIC</li>
+  <li>Click <code class="language-plaintext highlighter-rouge">Add Security List</code></li>
+  <li>Select the <code class="language-plaintext highlighter-rouge">VPN</code> in the security list pull down in the popup</li>
+  <li>Click <code class="language-plaintext highlighter-rouge">Add Security List</code> to confirm</li>
+</ol>
+
+<h3 id="client-settings">Client settings</h3>
+
+<p>Let me share how I connect my iPad</p>
+
+<ol>
+  <li>Get the WireGuard in Appstore. (iOS12 or higher is required)</li>
+  <li>Open the PNG QR code file of the user such as <code class="language-plaintext highlighter-rouge">configs/localhost/wireguard/tablet.png</code>
+  <code class="language-plaintext highlighter-rouge">configs</code> directory is the one you copied in the previous step</li>
+  <li>Launch WireGuard and touch <code class="language-plaintext highlighter-rouge">+</code> button to Create from QR code</li>
+  <li>Take the QR code and name it like <code class="language-plaintext highlighter-rouge">tablet</code></li>
+  <li>turn on the connection</li>
+</ol>
+
+<p>That’s it.</p>
+
+<p>Go to the browser and search for <code class="language-plaintext highlighter-rouge">my ip</code> to confirm your ip is of the one of the VPN server.</p>
+
+<p>WireGuard app is available for Mac and Windows10 as well so you can do similar</p>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<p>When the server is not available, WireGuard app silently fails so network is not available.</p>
+
+<p>Turn off the connection switch in the WireGuard and resolve the server issue and retry.</p>
+
+<h3 id="further-readings">Further readings</h3>
+
+<ul>
+  <li><a href="https://github.com/trailofbits/algo#deploy-the-algo-server" target="_blank">Algo VPN</a></li>
+</ul>
+
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">Kenny Yeo's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> Kenny Yeo </h4>
+                    <!-- Author Bio -->
+                    <p>
+                      A NodeJS Fullstack SW Engineer at Whitech Software Solution(a Fujifilm group company)<br />
+                      <a href="https://github.com/kennyhyun" target="_blank">Github</a> | <a href="https://www.linkedin.com/in/khyunyeo/">Linkedin</a>
+                    </p>
+                </section>
+            
+
+            <!-- Share links section -->
+            <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text=Setting up Algo VPN in Oracle cloud&amp;url=https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html"
+        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+            <!-- Disqus comments -->
+            
+                <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+     this.page.url = "https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html";
+     this.page.identifier = "/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html";
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://kennyyeoyounet.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+</section>
+
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="">Kenny on IT</a> &copy; 
+              2020 &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxxxxxxx"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-xxxxxxxx');
+    </script>
+</body>
+</html>

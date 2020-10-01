@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description>A small talks on IT</description>
+    <link>https://kenny.yeoyou.net/</link>
+    <atom:link href="https://kenny.yeoyou.net/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 01 Oct 2020 03:31:40 +0000</pubDate>
+    <lastBuildDate>Thu, 01 Oct 2020 03:31:40 +0000</lastBuildDate>
+    <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>Setting up Windows for developers with WSL2</title>
+        <description>&lt;p&gt;Many developers use Mac. That would be for building iOS apps. But there are more competetive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing, thanks to WSL2. Following this article, you can have a professional development environment without a hitch.&lt;/p&gt;
+
+&lt;p&gt;This includes…&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Git, Git bash&lt;/li&gt;
+  &lt;li&gt;Windows Terminal&lt;/li&gt;
+  &lt;li&gt;WSL2
+    &lt;ul&gt;
+      &lt;li&gt;Using Linux GUI apps&lt;/li&gt;
+      &lt;li&gt;Ssh to WSL&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Docker&lt;/li&gt;
+  &lt;li&gt;VSCode&lt;/li&gt;
+  &lt;li&gt;Defender Antivirus Exclusion&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;windows-version-and-build&quot;&gt;Windows version and build&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/winver.jpg&quot; alt=&quot;winver&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Wnd&lt;/code&gt;+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R&lt;/code&gt;, type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;winver&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;enter&lt;/code&gt; will give you the version info like above. If you have already version 2004 (OS build 19041), you are ready to go.&lt;/p&gt;
+
+&lt;p&gt;May 2020 update (version 2004 or build 19041) will support WSL2 and Docker will use WSL backend as a docker engine by default. Windows Home edition is also okay since you can now use Docker.&lt;/p&gt;
+
+&lt;p&gt;If your Windows does not show 2004 update for some reason, try &lt;a href=&quot;https://www.microsoft.com/en-au/software-download/windows10&quot; target=&quot;_blank&quot;&gt;this link&lt;/a&gt; to update.&lt;/p&gt;
+
+&lt;h2 id=&quot;developer-mode&quot;&gt;Developer mode&lt;/h2&gt;
+
+&lt;p&gt;Symlinks needs Administrator privilege or developer mode.&lt;/p&gt;
+
+&lt;p&gt;A git repo with symlinks will needs this&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/developer-mode.jpg&quot; alt=&quot;Developer mode&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Find more about &lt;a href=&quot;https://github.com/git-for-windows/git/wiki/Symbolic-Links#allowing-non-administrators-to-create-symbolic-links&quot; target=&quot;_blank&quot;&gt;using Symlinks in Windows&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;git-and-git-bash&quot;&gt;Git and Git-bash&lt;/h2&gt;
+
+&lt;p&gt;Now git is a must have when you develop.&lt;/p&gt;
+
+&lt;h3 id=&quot;install-git-with-git-bash&quot;&gt;Install Git with Git bash&lt;/h3&gt;
+
+&lt;p&gt;Let’s &lt;a href=&quot;https://git-scm.com/downloads&quot; target=&quot;_blank&quot;&gt;download here&lt;/a&gt; and install or update if you have already&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:\&amp;gt;git update-git-for-windows
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you don’t mind overriding DOS command, you can use bash command in command window&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/git-1.jpg&quot; alt=&quot;Unix tools from Command Prompt&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Choose autocrlf as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;input&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/git-2.jpg&quot; alt=&quot;Autocrlf&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;and enable symlinks while installing&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/git-3.jpg&quot; alt=&quot;Enable symlinks&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;** symlinks need developer mode or administrator&lt;/p&gt;
+
+&lt;p&gt;Don’t worry if you missed the symlink setting. You can set anytime later&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:\&amp;gt;git config --global core.autocrlf input
+C:\&amp;gt;git config --global core.symlinks true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Don’t forget to set your info&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:\&amp;gt;git config --global user.name &quot;Your Name&quot;
+C:\&amp;gt;git config --global user.email &quot;your-email-addr@your.domain&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;about-autoclrf&quot;&gt;About autoclrf&lt;/h3&gt;
+
+&lt;p&gt;Should be &lt;strong&gt;input&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Converting LF to CRLF when checking out might seem to be nice but most files can be used in docker when you develop. And it will complain about CRLF.&lt;/p&gt;
+
+&lt;p&gt;Don’t worry about LF only files unless you are using Notepad.&lt;/p&gt;
+
+&lt;h3 id=&quot;setting-up-rsa-key&quot;&gt;Setting up RSA key&lt;/h3&gt;
+
+&lt;p&gt;Github, Gitlab or Bitbucket (or more) use RSA key for authentication.&lt;/p&gt;
+
+&lt;p&gt;If you have your public key registered to the git service,
+you don’t have to provide username and password.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cmd&quot;&gt;C:\&amp;gt;ssh-keygen -t RSA -b 2048
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and enter a few times to answer using default value&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cmd&quot;&gt;C:\&amp;gt;type %USERPROFILE%\.ssh\id_rsa.pub
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and copy paste the public key to your git service.&lt;/p&gt;
+
+&lt;p&gt;This is not only for Windows but you will need in in WSL as well.
+After install WSL, do that again in WSL side.&lt;/p&gt;
+
+&lt;h2 id=&quot;windows-terminal&quot;&gt;Windows Terminal&lt;/h2&gt;
+
+&lt;p&gt;In MS Store, you can install &lt;a href=&quot;https://aka.ms/terminal&quot; target=&quot;_blank&quot;&gt;Windows Terminal&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/terminal.jpg&quot; alt=&quot;Windows Terminal&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;camingocode-font&quot;&gt;CamingoCode font&lt;/h3&gt;
+
+&lt;p&gt;I like &lt;a href=&quot;https://www.fontsquirrel.com/fonts/camingocode&quot; target=&quot;_blank&quot;&gt;CamingoCode&lt;/a&gt;. It is quite slick and clear monospaced font and provides distinctive &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;I&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;l&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; glyphs.
+Download TTF files from the link above and install by right clicking on each TTF files.&lt;/p&gt;
+
+&lt;p&gt;You can add this to the profile of the Windows Terminal setting.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	      	      &lt;span class=&quot;s2&quot;&gt;&quot;fontFace&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;CamingoCode&quot;&lt;/span&gt;,
+	      	      &lt;span class=&quot;s2&quot;&gt;&quot;fontSize&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;9&quot;&lt;/span&gt;,
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;using-git-bash&quot;&gt;Using Git-bash&lt;/h3&gt;
+
+&lt;p&gt;Add following to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profiles.list&lt;/code&gt; array in the Terminal setting.&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;guid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;{abc00000-0000-0000-0000-000000000000}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Git-Bash&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;commandline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%PROGRAMFILES%&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Git&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;bin&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;bash.exe&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;icon&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%PROGRAMFILES%&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Git&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;mingw64&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;share&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\\&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;git-for-windows.ico&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;fontFace&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;CamingoCode&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;fontSize&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;9&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;startingDirectory&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;~&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;wsl2&quot;&gt;WSL2&lt;/h2&gt;
+
+&lt;p&gt;Windows Subsystem for Linux has been recently added support for version 2.
+It provides better file I/O performance and an actual Linux kernel.
+You cannot use the host disk for WSL2 local files like in WSL1.&lt;/p&gt;
+
+&lt;p&gt;Using WSL2 is not quite different to using Hyper-V VM, but you can share the host (Windows) memory with the guest (Linux) so you can optimize memory usage as you are using only one OS.
+(Oracle Virtualbox also does this as well but you cannot use it with Docker at the same time :/)&lt;/p&gt;
+
+&lt;p&gt;And more importantly, Docker supports WSL2 now and it routes all the exported ports from the container to your host network.&lt;/p&gt;
+
+&lt;p&gt;** Windows 10 Home edition also supports WSL2.&lt;/p&gt;
+
+&lt;p&gt;** You still need the virtualisation support in your BIOS or UEFI setting.&lt;/p&gt;
+
+&lt;h3 id=&quot;installing-wsl&quot;&gt;Installing WSL&lt;/h3&gt;
+
+&lt;p&gt;You can refer &lt;a href=&quot;https://docs.microsoft.com/en-us/windows/wsl/install-win10&quot; target=&quot;_blank&quot;&gt;the official document&lt;/a&gt; for details but could just follow my sequence.&lt;/p&gt;
+
+&lt;p&gt;Open the elevated powershell. Right click the start button and choose &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Windows PowerShell (Admin)&lt;/code&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Enable WSL
+    &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt; dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Enable the ‘Virtual Machine Platform’ optional component
+    &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt; dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Install kernel update&lt;br /&gt;
+Download &lt;a href=&quot;https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi&quot; target=&quot;_blank&quot;&gt;the WSL2 kernel&lt;/a&gt; and install. Refer to &lt;a href=&quot;https://docs.microsoft.com/en-gb/windows/wsl/wsl2-kernel&quot; target=&quot;_blank&quot;&gt;the official document&lt;/a&gt; for details.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Install Ubuntu&lt;br /&gt;
+You can use another Linux distro but I prefer ubuntu. Using &lt;a href=&quot;https://www.microsoft.com/store/apps/9n6svws3rx71&quot; target=&quot;_blank&quot;&gt;MS store&lt;/a&gt;, install the distro&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Set WSL 2 as your default version
+    &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;C:&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt; wsl &lt;span class=&quot;nt&quot;&gt;--set-default-version&lt;/span&gt; 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Set default username&lt;br /&gt;
+Running Ubuntu from the start menu will need you to input the username and password for the first time once&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;accessing-wsl-directories&quot;&gt;Accessing WSL directories&lt;/h3&gt;
+
+&lt;p&gt;By default, WSL drive is shared by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\\wsl$\&amp;lt;distro name&amp;gt;&lt;/code&gt; like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\\wsl$\Ubuntu-20.04&lt;/code&gt;.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cmd&lt;/code&gt;+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;R&lt;/code&gt;, type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\\wsl$&lt;/code&gt; and enter will show the Linux root directories.&lt;/p&gt;
+
+&lt;p&gt;You can also map the drive by right click the directory.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/mapdrive.jpg&quot; alt=&quot;map drive&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;sudo-without-password&quot;&gt;Sudo without password&lt;/h3&gt;
+
+&lt;p&gt;You can use sudo without password in your WSL&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;visudo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;will show the editor and you can add&lt;/p&gt;
+
+&lt;div class=&quot;language-ini highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;&amp;lt;username&amp;gt;&lt;/span&gt; &lt;span class=&quot;py&quot;&gt;ALL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;(ALL) NOPASSWD:ALL&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;at last.&lt;/p&gt;
+
+&lt;p&gt;Replace &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;username&amp;gt;&lt;/code&gt; with yours and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;^x&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;enter&lt;/code&gt; to save and quit Nano.&lt;/p&gt;
+
+&lt;h3 id=&quot;managing-wsl-memory&quot;&gt;Managing WSL memory&lt;/h3&gt;
+
+&lt;p&gt;WSL2 shares your host memory but without a limit, it could drain your host memory.&lt;/p&gt;
+
+&lt;p&gt;It is required to set the maximum at half of your entire memory. It will not use the maximum memory unless required.&lt;/p&gt;
+
+&lt;h4 id=&quot;limiting-maximum-memory-usage&quot;&gt;Limiting maximum memory usage&lt;/h4&gt;
+
+&lt;p&gt;Create &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%USERPROFILE%\.wslconfig&lt;/code&gt; with the following content&lt;/p&gt;
+
+&lt;div class=&quot;language-ini highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;[wsl2]&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;memory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;4GB&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;reclaiming-wsl2-memory&quot;&gt;Reclaiming WSL2 memory&lt;/h4&gt;
+
+&lt;p&gt;On &lt;a href=&quot;https://devblogs.microsoft.com/commandline/memory-reclaim-in-the-windows-subsystem-for-linux-2/&quot; target=&quot;_blank&quot;&gt;an MS blog article&lt;/a&gt;, it says&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In order to return as much memory to the host as possible, we periodically compact memory to ensure free memory is available in contiguous blocks.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;WSL kernel tries to return memory as much as possible but Linux still caches memory and WSL does not try to clear since it would affect the performance.&lt;/p&gt;
+
+&lt;p&gt;If you want to give more memory to host, try this command on WSL,&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo &lt;/span&gt;1 | &lt;span class=&quot;nb&quot;&gt;sudo tee&lt;/span&gt; /proc/sys/vm/drop_caches
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;or on Windows, you can do&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-dos&quot;&gt;C:\&amp;gt;bash -c &quot;echo 1 | sudo tee /proc/sys/vm/drop_caches&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;ssh-to-wsl&quot;&gt;SSH to WSL&lt;/h3&gt;
+
+&lt;p&gt;Since WSL2 is a linux VM, you can install sshd in it. But to connect to the machine you will need the IP address.&lt;/p&gt;
+
+&lt;p&gt;One of the issue on Hyper-v/WSL2 is you cannot make the VM’s IP address static. When the network connection has been changed, the host virtual network interface address are changed so the guest address is also changed. This would not happen so often but if it changed, you need to get the new address again.&lt;/p&gt;
+
+&lt;p&gt;Recently I have found &lt;a href=&quot;https://www.hanselman.com/blog/THEEASYWAYHowToSSHIntoBashAndWSL2OnWindows10FromAnExternalMachine.aspx&quot; target=&quot;_blank&quot;&gt;a nice article&lt;/a&gt; to solve this issue.&lt;/p&gt;
+
+&lt;p&gt;You can install Openssh server in Windows side and set the default shell as bash(WSL2).&lt;/p&gt;
+
+&lt;p&gt;Following powershell commands will install Openssh server&lt;/p&gt;
+
+&lt;div class=&quot;language-powershell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;Add-WindowsCapability&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Online&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;OpenSSH.Server~~~~0.0.1.0&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Set-Service&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sshd&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-StartupType&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Automatic'&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Start-Service&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sshd&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;New-ItemProperty&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Path&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;HKLM:\SOFTWARE\OpenSSH&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;DefaultShell&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Value&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;C:\WINDOWS\System32\bash.exe&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-PropertyType&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Force&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And try&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cmd&quot;&gt;C:\&amp;gt;ssh localhost
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It will show ssh prompt to login with your Windows login password.&lt;/p&gt;
+
+&lt;p&gt;If you have got used to &lt;a href=&quot;https://putty.org/&quot; target=&quot;_blank&quot;&gt;Putty&lt;/a&gt; or &lt;a href=&quot;http://www.9bis.net/kitty/#!index.md&quot; target=&quot;_blank&quot;&gt;Kitty&lt;/a&gt;, now you can use it as a terminal.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/tmux.jpg&quot; alt=&quot;TMUX&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Tmux is a command line session manager. Visit the &lt;a href=&quot;https://github.com/tmux/tmux/wiki&quot; target=&quot;_blank&quot;&gt;Official Wiki&lt;/a&gt; if you are interested.&lt;/p&gt;
+
+&lt;h4 id=&quot;ssh-without-the-password&quot;&gt;ssh without the password&lt;/h4&gt;
+
+&lt;p&gt;If you register your public key (id_rsa.pub usually) to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/authorized_keys&lt;/code&gt; file, you can connect without the password.&lt;/p&gt;
+
+&lt;p&gt;But if you belong to the Administrators group, you should add the public key to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%programdata%/ssh/administrators_authorized_keys&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;using-linux-gui-apps&quot;&gt;Using Linux GUI Apps&lt;/h3&gt;
+
+&lt;p&gt;GUI is not supported in WSL. But if you can use XServer, Linux GUI apps can be used in Windows side. Try VCXSrv project. It’s an opensource X11 server. &lt;a href=&quot;https://sourceforge.net/projects/vcxsrv/&quot; target=&quot;_blank&quot;&gt;Download it here&lt;/a&gt; and install.&lt;/p&gt;
+
+&lt;h4 id=&quot;launching-x-server&quot;&gt;Launching X server&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/vcxsrv-access-control.jpg&quot; alt=&quot;VCXSrv Xlaunch&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Run XLaunch and it will ask some settings. Don’t forget to turn on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Disable access control&lt;/code&gt;. If you save the setting on the Desktop, you can use the config file to launch the server without setting it again.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/vcxsrv-save.jpg&quot; alt=&quot;VCXSrv Save&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When you launch vcxsrv for the first time, Windows Security Alert will ask if you allow that but by default, private access is only allowed but you actually need both private and public.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/vcxsrv-security-alert.jpg&quot; alt=&quot;VCXSrv Save&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you have just allowed only private, or not sure, check Windows firewall.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/firewall.jpg&quot; alt=&quot;firewall&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And allow all the 4 items in the Windows Defender Firewall with Advanced Security if you haven’t yet.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/vcsxrv-icon.jpg&quot; alt=&quot;firewall&quot; width=&quot;30%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You will have this icon in the system tray.&lt;/p&gt;
+
+&lt;h4 id=&quot;setting-display-env-variable&quot;&gt;Setting DISPLAY env variable&lt;/h4&gt;
+
+&lt;p&gt;You will also need to set DISPLAY env var in the WSL side. Because the host network address is not fixed, you might need to run the following before you use. Save the following to like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~/setDisplay&lt;/code&gt; and run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;source ~/setDisplay&lt;/code&gt; or jusr &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;. ~/setDisplay&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;DISPLAY&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/nameserver / {print $2; exit}'&lt;/span&gt; /etc/resolv.conf 2&amp;gt;/dev/null&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;:0
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LIBGL_ALWAYS_INDIRECT&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;trying-a-linux-app&quot;&gt;Trying a Linux app&lt;/h4&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ sudo apt install stacer
+$ export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2&amp;gt;/dev/null):0
+$ export LIBGL_ALWAYS_INDIRECT=1
+$ stacer
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Those commands will install Stacer and launch in Windows side&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/stacer.jpg&quot; alt=&quot;firewall&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;docker-desktop&quot;&gt;Docker Desktop&lt;/h2&gt;
+
+&lt;p&gt;Installing Docker on Windows is simple.
+Just &lt;a href=&quot;https://hub.docker.com/editions/community/docker-ce-desktop-windows/&quot; target=&quot;_blank&quot;&gt;download it here&lt;/a&gt; and install.&lt;/p&gt;
+
+&lt;p&gt;Since it provide a predefined service like an app, many projects utilise Docker in their project. But Using docker in Windows could be challenging due to the difference of the file system.&lt;/p&gt;
+
+&lt;p&gt;There is &lt;a href=&quot;https://www.docker.com/blog/docker-desktop-wsl-2-best-practices/&quot; target=&quot;_blank&quot;&gt;a nice blog article from Docker&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Even if your project does not require Docker, it would be beneficial.&lt;/p&gt;
+
+&lt;p&gt;For example, if you are not a ruby developer but if you want to use ruby for like writing a jekyll blog.
+You can use Docker to do that without installing all the ruby tools.&lt;/p&gt;
+
+&lt;p&gt;Moreover, you can install apps and Docker can start it always. How about getting a local music player for local files, &lt;a href=&quot;https://github.com/airsonic/airsonic&quot; target=&quot;_blank&quot;&gt;Airsonic&lt;/a&gt; (&lt;a href=&quot;https://hub.docker.com/r/airsonic/airsonic&quot; target=&quot;_blank&quot;&gt;Docker hub&lt;/a&gt;)&lt;/p&gt;
+
+&lt;h3 id=&quot;limiting-container-memory&quot;&gt;Limiting container memory&lt;/h3&gt;
+
+&lt;p&gt;Using docker-compose is easier to manage the containers.&lt;/p&gt;
+
+&lt;p&gt;You can manage multiple containers
+and save all the options in the file and creating, start, stop and removing are quite handy.
+Conatainers can be named using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;container_name&lt;/code&gt; BTW.&lt;/p&gt;
+
+&lt;p&gt;If you have not used it yet, please leran more &lt;a href=&quot;https://docs.docker.com/compose/&quot; target=&quot;_blank&quot;&gt;about docker-compose&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Use docker-compose version 2 (2.4 is latest at the point of writing this article) if you are not using Swarm.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mem_limit: 512m&lt;/code&gt; will limit the memory usage to 512M&lt;/p&gt;
+
+&lt;p&gt;** This can also be done by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--memory=512m&lt;/code&gt; using docker&lt;/p&gt;
+
+&lt;h2 id=&quot;vscode&quot;&gt;VSCode&lt;/h2&gt;
+
+&lt;p&gt;vscode seems like being a de facto standard. If you’re not a big fan of the other fancy editors, you can use this.&lt;/p&gt;
+
+&lt;p&gt;There is &lt;a href=&quot;https://code.visualstudio.com/docs/remote/wsl&quot; target=&quot;_blank&quot;&gt;a nice document from MS&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;where-should-the-project-files-be-placed&quot;&gt;Where should the project files be placed&lt;/h3&gt;
+
+&lt;p&gt;If your project is using docker and watching your source code and try to rebuild, it &lt;a href=&quot;https://github.com/microsoft/WSL/issues/216&quot; target=&quot;_blank&quot;&gt;will not be working in Windows&lt;/a&gt;. This could be challenging to know the reason why.&lt;/p&gt;
+
+&lt;p&gt;If you are using windows dev tools you can keep source files in Windows side.&lt;/p&gt;
+
+&lt;p&gt;If you want to avoid hassles, just stay only in the WSL side.&lt;/p&gt;
+
+&lt;h2 id=&quot;defender-antivirus-exclusion&quot;&gt;Defender Antivirus Exclusion&lt;/h2&gt;
+
+&lt;p&gt;You can put the all repo, project files in one directory in your home directory such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Projects&lt;/code&gt;. Usually it could create many automatically generated files in it.&lt;/p&gt;
+
+&lt;p&gt;For example, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;node_modules&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.bundle&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vendor&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build&lt;/code&gt; or so on.&lt;/p&gt;
+
+&lt;p&gt;You can speed up by excluding Antivirus scanning.&lt;/p&gt;
+
+&lt;p&gt;If you feel some building process is quite slow, you can turn on the task manager and locate &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Antimalware Service Executable&lt;/code&gt; and if that consumes CPU over 10%, consider adding some more exclusion.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/exclusion.jpg&quot; alt=&quot;Antivirus Exclusion&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;optionals&quot;&gt;Optionals&lt;/h2&gt;
+
+&lt;h3 id=&quot;chocolatey-package-manager&quot;&gt;Chocolatey, package manager&lt;/h3&gt;
+
+&lt;p&gt;It has so less hassles to install all the tools manually. It is like using Homebrew (brew) in mac.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://chocolatey.org/&quot; target=&quot;_blank&quot;&gt;Chocolatey Official Site&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;using-nodejs-in-windows-side&quot;&gt;Using Node.js in Windows side&lt;/h3&gt;
+
+&lt;p&gt;If you are a frontend developer or nodejs developer, you would have already Node.js installed.
+The latest Node.js installer actually includes build tools and package manager for Windows, Chocolatey. Don’t forget to install necessary tools. Unless you would have some error while building binary packages.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/wsl2/install-choco.jpg&quot; alt=&quot;Node.js Choco&quot; width=&quot;70%&quot; style=&quot;margin: 0&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When it is used in Gitbash, it is better. Even if your projects uses bash scripts which is usually not supported in Windows, you can still run it with git-bash.&lt;/p&gt;
+
+&lt;p&gt;You will need to exclude npm/yarn cache from Defender Antivirus setting.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cmd&quot;&gt;%APPDATA%\npm-cache
+%LOCALAPPDATA%\Yarn
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;say-hello-to-windows&quot;&gt;Say Hello to Windows&lt;/h2&gt;
+
+&lt;p&gt;Thanks to WSL2, Windows machine is also have been developer friendly. Docker performance it not worse than OSX and you can use it on Home Edition too. It actually has a better multiple display experience than OSX and Cleartype will give you a better font rendering in full HD display (might be a personal preference though). Edge browser is now chromium based.&lt;/p&gt;
+
+&lt;p&gt;I still don’t like too many rebooting but I would choose next dev machine as a Windows laptop :)&lt;/p&gt;
+</description>
+        <pubDate>Thu, 10 Sep 2020 13:29:21 +0000</pubDate>
+        <link>https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html</link>
+        <guid isPermaLink="true">https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html</guid>
+        
+        <category>windows</category>
+        
+        <category>windows-10</category>
+        
+        <category>home-edition</category>
+        
+        <category>wsl</category>
+        
+        <category>wsl2</category>
+        
+        <category>git</category>
+        
+        <category>git-bash</category>
+        
+        <category>windows-terminal</category>
+        
+        <category>docker</category>
+        
+        <category>docker-desktop</category>
+        
+        <category>wsl-backend</category>
+        
+        <category>camingo-code</category>
+        
+        <category>tmux</category>
+        
+        <category>vscode</category>
+        
+        <category>vcxsrv</category>
+        
+        <category>windows-defender-exclusion</category>
+        
+        <category>antivirus-exclusion</category>
+        
+        <category>ssh-wsl</category>
+        
+        
+        <category>IT</category>
+        
+      </item>
+    
+      <item>
+        <title>Setting up Algo VPN in Oracle cloud</title>
+        <description>&lt;p&gt;Using VPN abroad sometimes has advantages but paying a VPN service subscription could cost more than it worth.&lt;/p&gt;
+
+&lt;p&gt;However, what if you already have a VPS aboard? There seems to be a free VPS hosting nowadays.&lt;/p&gt;
+
+&lt;p&gt;As I told in the previous post,
+I tried to set Algo VPN server in Oracle Cloud.&lt;/p&gt;
+
+&lt;p&gt;Hope this dump to help you.&lt;/p&gt;
+
+&lt;h3 id=&quot;disclaimer&quot;&gt;Disclaimer&lt;/h3&gt;
+
+&lt;p&gt;Please use your VPN server in your own responsibility.
+I am not responsible any of the consequences of using Oracle Cloud or VPN.&lt;/p&gt;
+
+&lt;h3 id=&quot;create-an-instance&quot;&gt;Create an instance&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Check &lt;a href=&quot;https://www.oracle.com/au/cloud/free/&quot; target=&quot;_blank&quot;&gt;Oracle Cloud&lt;/a&gt; and Sign up.
+    &lt;ul&gt;
+      &lt;li&gt;Choose your home region where you intend to be.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Sign into the web console and click &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Create a VM instance&lt;/code&gt;.
+  &lt;img src=&quot;/assets/images/2020/vpn/instance1.jpg&quot; alt=&quot;Insttance1&quot; /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Choose ubuntu minimal and upload your public key
+        &lt;ul&gt;
+          &lt;li&gt;Check &lt;a href=&quot;https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent&quot; target=&quot;_blank&quot;&gt;how to create ssh key&lt;/a&gt; if you don’t have one.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Click create and you will see above details.
+  &lt;img src=&quot;/assets/images/2020/vpn/instance2.jpg&quot; alt=&quot;Insttance2&quot; width=&quot;80%&quot; /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Memo the public IP.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Now You can connect into the instance using ssh client.&lt;/p&gt;
+
+&lt;h3 id=&quot;install-algo-vpn-server&quot;&gt;Install Algo VPN server&lt;/h3&gt;
+
+&lt;p&gt;Connect to the instance created above and follow the following instructions to install the VPN server.&lt;/p&gt;
+
+&lt;h4 id=&quot;apt-upgrade-and-install-dependencies&quot;&gt;Apt upgrade and install dependencies&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt upgrade &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; python3-virtualenv unzip vim
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Install your editor as well above like vim or nano.&lt;/p&gt;
+
+&lt;h4 id=&quot;download-algo&quot;&gt;Download Algo&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget https://github.com/trailofbits/algo/archive/master.zip
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;unzip master.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;set-virtualenv&quot;&gt;Set virtualenv&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;algo-master
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; virtualenv &lt;span class=&quot;nt&quot;&gt;--python&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; python3&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; .env &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .env/bin/activate &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+  python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-U&lt;/span&gt; pip virtualenv &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+  python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; requirements.txt
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;config-users&quot;&gt;Config users&lt;/h4&gt;
+
+&lt;p&gt;Edit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config.cfg&lt;/code&gt; to add users&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vi config.cfg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I recommend you to use like the following since sharing accounts is told to cause some issues&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;phone&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;phone2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tablet&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tablet2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;laptop&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;laptop2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;desktop&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;desktop2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;server&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;server2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;guest&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;guest2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;start-deployment&quot;&gt;Start deployment&lt;/h4&gt;
+
+&lt;p&gt;It’s an interactive script.
+You need to choose options and the script will get the job done.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./algo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The first question is the most important
+Put 11 since you are using the localhost which you are using for the installation&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Cloud prompt]
+What provider would you like to use?
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 11. Install to existing Ubuntu 18.04 or 20.04 server &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;more advanced &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Most of the following would be okay for their default (just enter)
+but you will need the followings two answered differently&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Retain the PKI prompt]
+Do you want to retain the keys &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;PKI&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;? &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;required to add &lt;span class=&quot;nb&quot;&gt;users &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the future, but less secure&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/N]
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; Y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt; : pause]
+Enter the public IP address or domain name of your server: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;IMPORTANT! This is used to verify the certificate&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;localhost]
+
+&lt;span class=&quot;nt&quot;&gt;---&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Put the public IP adress of your instance]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And it will start to install the VPN server and then it show the server details.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;'#                       Congratulations!                         #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#                  Your Algo server is running.                  #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'# Config files and certificates are in the ./configs/ directory. #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#           Go to https://whoer.net/ after connecting            #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#     and ensure that all your traffic passes through the VPN.   #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#                  Local DNS resolver 172.29.**.**               #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#     The p12 and SSH keys password for new users is *********   #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#     The CA key password is ****************                    #'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If something went wrong, it’s recommended to restart the whole procedure from the top.
+Terminate the instance and recreate the instance.&lt;/p&gt;
+
+&lt;h4 id=&quot;copy-credentials-from-the-algo-server&quot;&gt;Copy credentials from the Algo server&lt;/h4&gt;
+
+&lt;p&gt;Now it’s okay to disconnect the ssh connection to the VPN server.&lt;/p&gt;
+
+&lt;p&gt;From your local env (eg. laptop), run scp to copy files from the server
+Replace &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vpnserver&lt;/code&gt; to your VPN server IP.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;scp &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; ubuntu@vpnserver:algo-master/configs &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you can use credentials for the VPN server in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;configs&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;h3 id=&quot;open-the-ports-for-the-vpn&quot;&gt;Open the ports for the VPN&lt;/h3&gt;
+
+&lt;p&gt;VPN server itself is ready now but there is still one more step left.
+The &lt;a href=&quot;https://github.com/trailofbits/algo/blob/master/docs/firewalls.md&quot; target=&quot;_blank&quot;&gt;ports&lt;/a&gt; are usually closed so it should be allowed manually.&lt;/p&gt;
+
+&lt;h4 id=&quot;add-security-list-for-vpn&quot;&gt;Add Security List for VPN&lt;/h4&gt;
+
+&lt;p&gt;Sign into the web console.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Go to Networking &amp;gt; Virtual Cloud Networks&lt;/li&gt;
+  &lt;li&gt;Click the VCN name in the right plan to see the details&lt;/li&gt;
+  &lt;li&gt;Click the Security Lists in the Resources in the Left pane&lt;/li&gt;
+  &lt;li&gt;Click &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Create Security List&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Put details in the popup
+    &lt;ul&gt;
+      &lt;li&gt;Name: VPN&lt;/li&gt;
+      &lt;li&gt;Additional Ingress Rule: Ingress Rule 1
+        &lt;ul&gt;
+          &lt;li&gt;Source CIDR: 0.0.0.0/0&lt;/li&gt;
+          &lt;li&gt;Destination Port Range: 4160&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Additional Ingress Rule: Ingress Rule 2
+        &lt;ul&gt;
+          &lt;li&gt;Source CIDR: 0.0.0.0/0&lt;/li&gt;
+          &lt;li&gt;IP Protocol: UDP&lt;/li&gt;
+          &lt;li&gt;Destination Port Range: 51820,500,4500&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Click &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Create Security List&lt;/code&gt; to confirm&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/vpn/vpn.ports.jpg&quot; alt=&quot;vpn ports&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;bind-the-security-list-to-the-public-subnet&quot;&gt;Bind the Security List to the Public Subnet&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Go to the Instace Details (Compute &amp;gt; Instaces &amp;gt; Instance Details)&lt;/li&gt;
+  &lt;li&gt;Click &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Subnet&lt;/code&gt; of Primary VNIC&lt;/li&gt;
+  &lt;li&gt;Click &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Add Security List&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Select the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VPN&lt;/code&gt; in the security list pull down in the popup&lt;/li&gt;
+  &lt;li&gt;Click &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Add Security List&lt;/code&gt; to confirm&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;client-settings&quot;&gt;Client settings&lt;/h3&gt;
+
+&lt;p&gt;Let me share how I connect my iPad&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Get the WireGuard in Appstore. (iOS12 or higher is required)&lt;/li&gt;
+  &lt;li&gt;Open the PNG QR code file of the user such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;configs/localhost/wireguard/tablet.png&lt;/code&gt;
+  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;configs&lt;/code&gt; directory is the one you copied in the previous step&lt;/li&gt;
+  &lt;li&gt;Launch WireGuard and touch &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;+&lt;/code&gt; button to Create from QR code&lt;/li&gt;
+  &lt;li&gt;Take the QR code and name it like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tablet&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;turn on the connection&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;That’s it.&lt;/p&gt;
+
+&lt;p&gt;Go to the browser and search for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;my ip&lt;/code&gt; to confirm your ip is of the one of the VPN server.&lt;/p&gt;
+
+&lt;p&gt;WireGuard app is available for Mac and Windows10 as well so you can do similar&lt;/p&gt;
+
+&lt;h3 id=&quot;troubleshooting&quot;&gt;Troubleshooting&lt;/h3&gt;
+
+&lt;p&gt;When the server is not available, WireGuard app silently fails so network is not available.&lt;/p&gt;
+
+&lt;p&gt;Turn off the connection switch in the WireGuard and resolve the server issue and retry.&lt;/p&gt;
+
+&lt;h3 id=&quot;further-readings&quot;&gt;Further readings&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/trailofbits/algo#deploy-the-algo-server&quot; target=&quot;_blank&quot;&gt;Algo VPN&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 01 Aug 2020 10:41:01 +0000</pubDate>
+        <link>https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html</link>
+        <guid isPermaLink="true">https://kenny.yeoyou.net/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html</guid>
+        
+        <category>algovpn</category>
+        
+        <category>algo</category>
+        
+        <category>wireguard</category>
+        
+        <category>vpn</category>
+        
+        <category>ipad</category>
+        
+        <category>phone</category>
+        
+        <category>android</category>
+        
+        <category>oracle</category>
+        
+        <category>oracle-cloud</category>
+        
+        
+        <category>IT</category>
+        
+      </item>
+    
+      <item>
+        <title>Hello! Starting kenny.yeoyou.net</title>
+        <description>&lt;p&gt;Hello there, I’m Kenny. A Korean developer working in Sydney.&lt;/p&gt;
+
+&lt;p&gt;I’ve been working for 20 years on IT/Programming here, Tokyo and Seoul.
+I’d like to share my recent learnings on the latest technology.&lt;/p&gt;
+
+&lt;p&gt;Stay tuned. The first coming post would be about setting a private VPN server on Oracle cloud.&lt;/p&gt;
+
+&lt;p&gt;BTW, I’m recently working with JS and loving it.
+Still new to Ruby but love Jekill and Gihub.
+Here is my little promise.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setTheAlgoVpnOnOracleiCloud&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;regionName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;South Korea North&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;due&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;ASAP&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dumpTheWalkthrough&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Github blog&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;kennyhyun&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;content&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;publishContents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;You can make your own private VPN server now&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Head-ups:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.oracle.com/au/cloud/free/&quot;&gt;Oracle Cloud&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/trailofbits/algo&quot;&gt;Algo VPN&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;See ya&lt;/p&gt;
+</description>
+        <pubDate>Fri, 31 Jul 2020 12:57:05 +0000</pubDate>
+        <link>https://kenny.yeoyou.net/greeting/2020/07/31/hello-starting-kenny-yeoyou-net.html</link>
+        <guid isPermaLink="true">https://kenny.yeoyou.net/greeting/2020/07/31/hello-starting-kenny-yeoyou-net.html</guid>
+        
+        
+        <category>Greeting</category>
+        
+      </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description>A small talks on IT</description>
+    <link>https://kenny.yeoyou.net/ja/</link>
+    <atom:link href="https://kenny.yeoyou.net/ja/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 01 Oct 2020 03:31:40 +0000</pubDate>
+    <lastBuildDate>Thu, 01 Oct 2020 03:31:40 +0000</lastBuildDate>
+    <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>無料VPS、Oracle cloud使ったAlgo VPNの紹介</title>
+        <description>&lt;p&gt;たまに海外のVPNサーバーがいる時がありますが、そのためにわざわざ月額払ってまで使いたくはないですよね。&lt;/p&gt;
+
+&lt;p&gt;しかし、既に仮想サーバーが海外に既にある場合はどうでしょうか？最近は無料のサーバーも結構あるようです。&lt;/p&gt;
+
+&lt;p&gt;CloudにAlgo VPNサーバーをインストールしてみました。&lt;/p&gt;
+
+&lt;p&gt;皆さんにこの情報が役立てればと思います。&lt;/p&gt;
+
+&lt;h3 id=&quot;免責&quot;&gt;免責&lt;/h3&gt;
+
+&lt;p&gt;VPNを使用に関しては各自の責任で御使用願います。私はOracle CloudやVPNの使用について一切の責任を負いません。&lt;/p&gt;
+
+&lt;h3 id=&quot;インスタンス生成&quot;&gt;インスタンス生成&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;ここ&lt;a href=&quot;https://www.oracle.com/au/cloud/free/&quot; target=&quot;_blank&quot;&gt;Oracle Cloud&lt;/a&gt;でアカウントを作成します
+    &lt;ul&gt;
+      &lt;li&gt;ホームリージョンは、VPNを使用したい場所に設定します&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Webコンソールにアクセスして「Create a VM instance」ボタンをクリックします
+  &lt;img src=&quot;/assets/images/2020/vpn/instance1.jpg&quot; alt=&quot;Insttance1&quot; /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Ubuntu minimalを選んでpublic keyをアップロードします
+        &lt;ul&gt;
+          &lt;li&gt;sshキーがない場合は、次を参考に作成しますhow to create ssh key&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;「create」をクリックすると、次のように詳細を確認することができます
+  &lt;img src=&quot;/assets/images/2020/vpn/instance2.jpg&quot; alt=&quot;Insttance2&quot; width=&quot;80%&quot; /&gt;
+    &lt;ul&gt;
+      &lt;li&gt;公認のIPアドレスをメモっておきます&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;さて、生成が完了するとssh経由でインスタンスに接続できます。&lt;/p&gt;
+
+&lt;h3 id=&quot;algo-vpnのインストール&quot;&gt;Algo VPNのインストール&lt;/h3&gt;
+
+&lt;p&gt;上記の生成したインスタンスに接続して、次のようにVPNサーバーをインストールします。&lt;/p&gt;
+
+&lt;h4 id=&quot;aptパッケージのインストール&quot;&gt;Aptパッケージのインストール&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt upgrade &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; python3-virtualenv unzip vim
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;希望のエディタも忘れずに追加します。vimが慣れてない方は代わりnanoを使用しましょう。&lt;/p&gt;
+
+&lt;h4 id=&quot;algoのダウンロード&quot;&gt;Algoのダウンロード&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;wget https://github.com/trailofbits/algo/archive/master.zip
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;unzip master.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;virtualenvの設定&quot;&gt;virtualenvの設定&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;algo-master
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; virtualenv &lt;span class=&quot;nt&quot;&gt;--python&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; python3&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; .env &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; .env/bin/activate &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+  python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-U&lt;/span&gt; pip virtualenv &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+  python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; requirements.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;ユーザーの追加&quot;&gt;ユーザーの追加&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config.cfg&lt;/code&gt;を編集して、ユーザーを追加します。&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vi config.cfg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;ユーザーを共有すると時々問題があるそうなので、次のように十分に追加しておくことをお勧めします。&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;phone&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;phone2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tablet&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tablet2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;laptop&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;laptop2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;desktop&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;desktop2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;server&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;server2&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;guest&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;guest2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;配布スクリプトの実行&quot;&gt;配布スクリプトの実行&lt;/h4&gt;
+
+&lt;p&gt;次は対話型のスクリプトです。いくつかの選択肢に答えると、スクリプトがインストールを行います。&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;./algo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Cloud prompt]
+What provider would you like to use?
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; 11. Install to existing Ubuntu 18.04 or 20.04 server &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;more advanced &lt;span class=&quot;nb&quot;&gt;users&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;最初の質問が最も重要です。現在接続したサーバーにインストールするので11番を選択します。&lt;/p&gt;
+
+&lt;p&gt;残りのほとんどはデフォルトの設定でエンターを押すだけで良いですが、次の２つの質問に違う答えを入れましょう。&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Retain the PKI prompt]
+Do you want to retain the keys &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;PKI&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;? &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;required to add &lt;span class=&quot;nb&quot;&gt;users &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the future, but less secure&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;y/N]
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; Y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt; : pause]
+Enter the public IP address or domain name of your server: &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;IMPORTANT! This is used to verify the certificate&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;localhost]
+&lt;span class=&quot;nt&quot;&gt;---&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Put the public IP adress of your instance]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;これにより、次のように出力され、インストールが終了します。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;'#                       Congratulations!                         #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#                  Your Algo server is running.                  #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'# Config files and certificates are in the ./configs/ directory. #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#           Go to https://whoer.net/ after connecting            #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#     and ensure that all your traffic passes through the VPN.   #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#                  Local DNS resolver 172.29.**.**               #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#     The p12 and SSH keys password for new users is *********   #'&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'#     The CA key password is ****************                    #'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;何かが間違ったら、最初から再インストールすることが良いと言われます。現在のインスタンスを破棄し、新しいインスタンスを再作成します。&lt;/p&gt;
+
+&lt;h4 id=&quot;接続情報のコピー&quot;&gt;接続情報のコピー&lt;/h4&gt;
+
+&lt;p&gt;次はVPNサーバーのssh接続は終了してもいいです。&lt;/p&gt;
+
+&lt;p&gt;今使用しているローカル環境でscpコマンドで接続情報をコピーします。次の「vpnserver」はVPNサーバーのパブリックIPに置き換えます。&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;scp &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; ubuntu@vpnserver:algo-master/configs &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;それでは「configs」ディレクトリにある接続情報が使えます。&lt;/p&gt;
+
+&lt;h3 id=&quot;vpnサーバーのポートの開放&quot;&gt;VPNサーバーのポートの開放&lt;/h3&gt;
+
+&lt;p&gt;VPNサーバー自体は用意できてますが、あとひとステップが残っています。&lt;/p&gt;
+
+&lt;p&gt;VPN接続に必要な&lt;a href=&quot;https://github.com/trailofbits/algo/blob/master/docs/firewalls.md&quot; target=&quot;_blank&quot;&gt;ポート&lt;/a&gt;は、通常閉じてあるので、手動で開けなければなりません。&lt;/p&gt;
+
+&lt;h4 id=&quot;vpn接続に使用するsecurity-listの作成&quot;&gt;VPN接続に使用するSecurity Listの作成&lt;/h4&gt;
+
+&lt;p&gt;Oracle Cloudのウェブコンソールに接続します。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Networking &amp;gt; Virtual Cloud Networksを開きます&lt;/li&gt;
+  &lt;li&gt;右のVCN nameをクリックします&lt;/li&gt;
+  &lt;li&gt;左の「Security Lists」をクリックします&lt;/li&gt;
+  &lt;li&gt;「Create Security List」をクリックします&lt;/li&gt;
+  &lt;li&gt;ポップアップには、次のように入力します
+    &lt;ul&gt;
+      &lt;li&gt;Name: VPN&lt;/li&gt;
+      &lt;li&gt;Additional Ingress Rule: Ingress Rule 1
+        &lt;ul&gt;
+          &lt;li&gt;Source CIDR: 0.0.0.0/0&lt;/li&gt;
+          &lt;li&gt;Destination Port Range: 4160&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Additional Ingress Rule: Ingress Rule 2
+        &lt;ul&gt;
+          &lt;li&gt;Source CIDR: 0.0.0.0/0&lt;/li&gt;
+          &lt;li&gt;IP Protocol: UDP&lt;/li&gt;
+          &lt;li&gt;Destination Port Range: 51820,500,4500&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Create Security List&lt;/code&gt;をクリックして確定します&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/2020/vpn/vpn.ports.jpg&quot; alt=&quot;vpn ports&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;security-listをpublic-subnetに繋ぐ&quot;&gt;Security ListをPublic Subnetに繋ぐ&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Instace Details (Compute &amp;gt; Instaces &amp;gt; Instance Details)を開きます&lt;/li&gt;
+  &lt;li&gt;Primary VNICのSubnetをクリックします&lt;/li&gt;
+  &lt;li&gt;「Add Security List」をクリックします&lt;/li&gt;
+  &lt;li&gt;ポップアップのsecurity listプルダウンのVPNを選択します&lt;/li&gt;
+  &lt;li&gt;「Add Security List」をクリックして確定します&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;clientの設定&quot;&gt;Clientの設定&lt;/h3&gt;
+
+&lt;p&gt;取りあえずアイパッドにての設定法について説明します。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;AppstoreでWireGuardをインストールします（iOS 12以降が必要です）&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;configs/localhost/wireguard/tablet.png&lt;/code&gt;のようにユーザーに合ったPNGのQRコードを開きます
+  「configs」ディレクトリは、前の手順でコピーしておいたものです&lt;/li&gt;
+  &lt;li&gt;WireGuardを実行し、「+」ボタンをタッチして「Create from QR code」を選択します&lt;/li&gt;
+  &lt;li&gt;QR code撮ってtabletのように名前を付けときます&lt;/li&gt;
+  &lt;li&gt;その生成されたtabletの接続をオンにします&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;これでVPNに接続されます。&lt;/p&gt;
+
+&lt;p&gt;ブラウザを開いて「my ip」を検索するとVPN serverのアドレスが表示されるか確認します。&lt;/p&gt;
+
+&lt;p&gt;WireGuardアプリはMac and Windows 10にても使用可能なので、似たような方法で設定でます。&lt;/p&gt;
+
+&lt;h3 id=&quot;トラブルシューティング&quot;&gt;トラブルシューティング&lt;/h3&gt;
+
+&lt;p&gt;サーバーに接続することができなくてもWireGuardアプリは黙ってインターネットが不通になります。
+インターネット接続に問題がある場合VPN接続を終了し、サーバーの問題を解決した後、もう一度お試しください。&lt;/p&gt;
+
+&lt;h3 id=&quot;もっと読む&quot;&gt;もっと読む&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/trailofbits/algo#deploy-the-algo-server&quot; target=&quot;_blank&quot;&gt;Algo VPN&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 01 Aug 2020 10:41:01 +0000</pubDate>
+        <link>https://kenny.yeoyou.net/ja/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html</link>
+        <guid isPermaLink="true">https://kenny.yeoyou.net/ja/it/2020/08/01/set-up-algo-vpn-in-oracle-cloud.html</guid>
+        
+        <category>algovpn</category>
+        
+        <category>algo</category>
+        
+        <category>wireguard</category>
+        
+        <category>vpn</category>
+        
+        <category>iphone</category>
+        
+        <category>ipad</category>
+        
+        <category>android</category>
+        
+        <category>アイフォン</category>
+        
+        <category>アイパッド</category>
+        
+        <category>oracle</category>
+        
+        <category>oracle-cloud</category>
+        
+        
+        <category>IT</category>
+        
+      </item>
+    
+  </channel>
+</rss>

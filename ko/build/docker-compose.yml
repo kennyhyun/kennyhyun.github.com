@@ -1,0 +1,21 @@
+version: "2.4"
+services:
+  jekyll:
+    image: jekyll/jekyll:3.8
+    container_name: kenny.yeoyou.net
+    mem_limit: 512m # less than 512 could fail bundling sassc
+    ports:
+      - 4000:4000
+    volumes:
+      - ./:/srv/jekyll
+      - ./vendor/bundle:/usr/local/bundle
+    restart: unless-stopped
+    command:
+      - jekyll
+      - server
+      - --watch
+      - --drafts
+
+
+
+

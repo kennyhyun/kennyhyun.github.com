@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    
+    <!-- naver web master -->
+    <meta name="robots" content="index,follow" />
+    <meta name="NaverBot" content="All" />
+    <meta name="NaverBot" content="index,follow" />
+    <meta name="Yeti" content="All" />
+    <meta name="Yeti" content="index,follow" />
+
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Setting up Windows for developers with WSL2 | Kenny on IT</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Setting up Windows for developers with WSL2" />
+<meta name="author" content="Kenny Yeo" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Many developers use Mac. That would be for building iOS apps. But there are more competitive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing thanks to WSL2. Following this article, you can have a professional develop environment without a hitch." />
+<meta property="og:description" content="Many developers use Mac. That would be for building iOS apps. But there are more competitive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing thanks to WSL2. Following this article, you can have a professional develop environment without a hitch." />
+<link rel="canonical" href="https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html" />
+<meta property="og:url" content="https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html" />
+<meta property="og:site_name" content="Kenny on IT" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-10T13:29:21+00:00" />
+<script type="application/ld+json">
+{"headline":"Setting up Windows for developers with WSL2","dateModified":"2020-09-10T13:29:21+00:00","datePublished":"2020-09-10T13:29:21+00:00","author":{"@type":"Person","name":"Kenny Yeo"},"url":"https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html","description":"Many developers use Mac. That would be for building iOS apps. But there are more competitive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing thanks to WSL2. Following this article, you can have a professional develop environment without a hitch.","mainEntityOfPage":{"@type":"WebPage","@id":"https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    
+    <meta name="keywords" content="windows, windows-10, home-edition, wsl, wsl2, git, git-bash, windows-terminal, docker, docker-desktop, wsl-backend, camingo-code, tmux, vscode, vcxsrv, windows-defender-exclusion, antivirus-exclusion, ssh-wsl"/>
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css " />
+    
+    <meta name="naver-site-verification" content="c2e81e9ed92ee39337612e88df3828e3e21fc8b9" />
+
+</head>
+<body class="home-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+
+        <section class="language">
+    
+    
+    
+    
+        <a class="back-button lang-ko" href="/ko/it/2020/09/10/windows-development-environment.html">한국어</a>
+    
+    
+        <a class="back-button lang-ja" href="/ja/it/2020/09/10/windows-development-environment.html">日本語</a>
+    
+    
+</section>
+
+
+        <a class="subscribe-button icon-feed" href="/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Setting up Windows for developers with WSL2</h1>
+            <section class="post-meta">
+                
+                    on IT
+                
+                <time class="post-date" datetime="2020-09-10">10 Sep 2020</time>
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="https://kenny.yeoyou.net">
+                
+                    <span class="blog-title">Kenny on IT</span>
+                
+            </a>
+        </header> -->
+
+        <!-- <span class="post-meta">
+            <time datetime="2020-09-10">10 Sep 2020</time>
+            
+                on IT
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Setting up Windows for developers with WSL2</h1> -->
+
+        <section class="post-content">
+            <p>Many developers use Mac. That would be for building iOS apps. But there are more competetive laptops with Windows. If you do not need to build iOS apps, Windows is actually a great option for developing, thanks to WSL2. Following this article, you can have a professional development environment without a hitch.</p>
+
+<p>This includes…</p>
+
+<ul>
+  <li>Git, Git bash</li>
+  <li>Windows Terminal</li>
+  <li>WSL2
+    <ul>
+      <li>Using Linux GUI apps</li>
+      <li>Ssh to WSL</li>
+    </ul>
+  </li>
+  <li>Docker</li>
+  <li>VSCode</li>
+  <li>Defender Antivirus Exclusion</li>
+</ul>
+
+<h2 id="windows-version-and-build">Windows version and build</h2>
+
+<p><img src="/assets/images/2020/wsl2/winver.jpg" alt="winver" width="70%" style="margin: 0" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Wnd</code>+<code class="language-plaintext highlighter-rouge">R</code>, type <code class="language-plaintext highlighter-rouge">winver</code>, <code class="language-plaintext highlighter-rouge">enter</code> will give you the version info like above. If you have already version 2004 (OS build 19041), you are ready to go.</p>
+
+<p>May 2020 update (version 2004 or build 19041) will support WSL2 and Docker will use WSL backend as a docker engine by default. Windows Home edition is also okay since you can now use Docker.</p>
+
+<p>If your Windows does not show 2004 update for some reason, try <a href="https://www.microsoft.com/en-au/software-download/windows10" target="_blank">this link</a> to update.</p>
+
+<h2 id="developer-mode">Developer mode</h2>
+
+<p>Symlinks needs Administrator privilege or developer mode.</p>
+
+<p>A git repo with symlinks will needs this</p>
+
+<p><img src="/assets/images/2020/wsl2/developer-mode.jpg" alt="Developer mode" width="70%" style="margin: 0" /></p>
+
+<p>Find more about <a href="https://github.com/git-for-windows/git/wiki/Symbolic-Links#allowing-non-administrators-to-create-symbolic-links" target="_blank">using Symlinks in Windows</a></p>
+
+<h2 id="git-and-git-bash">Git and Git-bash</h2>
+
+<p>Now git is a must have when you develop.</p>
+
+<h3 id="install-git-with-git-bash">Install Git with Git bash</h3>
+
+<p>Let’s <a href="https://git-scm.com/downloads" target="_blank">download here</a> and install or update if you have already</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\&gt;git update-git-for-windows
+</code></pre></div></div>
+
+<p>If you don’t mind overriding DOS command, you can use bash command in command window</p>
+
+<p><img src="/assets/images/2020/wsl2/git-1.jpg" alt="Unix tools from Command Prompt" width="70%" style="margin: 0" /></p>
+
+<p>Choose autocrlf as <code class="language-plaintext highlighter-rouge">input</code></p>
+
+<p><img src="/assets/images/2020/wsl2/git-2.jpg" alt="Autocrlf" width="70%" style="margin: 0" /></p>
+
+<p>and enable symlinks while installing</p>
+
+<p><img src="/assets/images/2020/wsl2/git-3.jpg" alt="Enable symlinks" width="70%" style="margin: 0" /></p>
+
+<p>** symlinks need developer mode or administrator</p>
+
+<p>Don’t worry if you missed the symlink setting. You can set anytime later</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\&gt;git config --global core.autocrlf input
+C:\&gt;git config --global core.symlinks true
+</code></pre></div></div>
+
+<p>Don’t forget to set your info</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:\&gt;git config --global user.name "Your Name"
+C:\&gt;git config --global user.email "your-email-addr@your.domain"
+</code></pre></div></div>
+
+<h3 id="about-autoclrf">About autoclrf</h3>
+
+<p>Should be <strong>input</strong>.</p>
+
+<p>Converting LF to CRLF when checking out might seem to be nice but most files can be used in docker when you develop. And it will complain about CRLF.</p>
+
+<p>Don’t worry about LF only files unless you are using Notepad.</p>
+
+<h3 id="setting-up-rsa-key">Setting up RSA key</h3>
+
+<p>Github, Gitlab or Bitbucket (or more) use RSA key for authentication.</p>
+
+<p>If you have your public key registered to the git service,
+you don’t have to provide username and password.</p>
+
+<pre><code class="language-cmd">C:\&gt;ssh-keygen -t RSA -b 2048
+</code></pre>
+
+<p>and enter a few times to answer using default value</p>
+
+<pre><code class="language-cmd">C:\&gt;type %USERPROFILE%\.ssh\id_rsa.pub
+</code></pre>
+
+<p>and copy paste the public key to your git service.</p>
+
+<p>This is not only for Windows but you will need in in WSL as well.
+After install WSL, do that again in WSL side.</p>
+
+<h2 id="windows-terminal">Windows Terminal</h2>
+
+<p>In MS Store, you can install <a href="https://aka.ms/terminal" target="_blank">Windows Terminal</a></p>
+
+<p><img src="/assets/images/2020/wsl2/terminal.jpg" alt="Windows Terminal" width="70%" style="margin: 0" /></p>
+
+<h3 id="camingocode-font">CamingoCode font</h3>
+
+<p>I like <a href="https://www.fontsquirrel.com/fonts/camingocode" target="_blank">CamingoCode</a>. It is quite slick and clear monospaced font and provides distinctive <code class="language-plaintext highlighter-rouge">I</code>, <code class="language-plaintext highlighter-rouge">l</code> and <code class="language-plaintext highlighter-rouge">1</code> glyphs.
+Download TTF files from the link above and install by right clicking on each TTF files.</p>
+
+<p>You can add this to the profile of the Windows Terminal setting.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	      	      <span class="s2">"fontFace"</span>: <span class="s2">"CamingoCode"</span>,
+	      	      <span class="s2">"fontSize"</span>: <span class="s2">"9"</span>,
+</code></pre></div></div>
+
+<h3 id="using-git-bash">Using Git-bash</h3>
+
+<p>Add following to <code class="language-plaintext highlighter-rouge">profiles.list</code> array in the Terminal setting.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">            </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"guid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{abc00000-0000-0000-0000-000000000000}"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Git-Bash"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"commandline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"%PROGRAMFILES%</span><span class="se">\\</span><span class="s2">Git</span><span class="se">\\</span><span class="s2">bin</span><span class="se">\\</span><span class="s2">bash.exe"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"icon"</span><span class="p">:</span><span class="w"> </span><span class="s2">"%PROGRAMFILES%</span><span class="se">\\</span><span class="s2">Git</span><span class="se">\\</span><span class="s2">mingw64</span><span class="se">\\</span><span class="s2">share</span><span class="se">\\</span><span class="s2">git</span><span class="se">\\</span><span class="s2">git-for-windows.ico"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"fontFace"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CamingoCode"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"fontSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"startingDirectory"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"~"</span><span class="w">
+            </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="wsl2">WSL2</h2>
+
+<p>Windows Subsystem for Linux has been recently added support for version 2.
+It provides better file I/O performance and an actual Linux kernel.
+You cannot use the host disk for WSL2 local files like in WSL1.</p>
+
+<p>Using WSL2 is not quite different to using Hyper-V VM, but you can share the host (Windows) memory with the guest (Linux) so you can optimize memory usage as you are using only one OS.
+(Oracle Virtualbox also does this as well but you cannot use it with Docker at the same time :/)</p>
+
+<p>And more importantly, Docker supports WSL2 now and it routes all the exported ports from the container to your host network.</p>
+
+<p>** Windows 10 Home edition also supports WSL2.</p>
+
+<p>** You still need the virtualisation support in your BIOS or UEFI setting.</p>
+
+<h3 id="installing-wsl">Installing WSL</h3>
+
+<p>You can refer <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" target="_blank">the official document</a> for details but could just follow my sequence.</p>
+
+<p>Open the elevated powershell. Right click the start button and choose <code class="language-plaintext highlighter-rouge">Windows PowerShell (Admin)</code></p>
+
+<ol>
+  <li>Enable WSL
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span> dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+</code></pre></div>    </div>
+  </li>
+  <li>Enable the ‘Virtual Machine Platform’ optional component
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span> dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Install kernel update<br />
+Download <a href="https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" target="_blank">the WSL2 kernel</a> and install. Refer to <a href="https://docs.microsoft.com/en-gb/windows/wsl/wsl2-kernel" target="_blank">the official document</a> for details.</p>
+  </li>
+  <li>
+    <p>Install Ubuntu<br />
+You can use another Linux distro but I prefer ubuntu. Using <a href="https://www.microsoft.com/store/apps/9n6svws3rx71" target="_blank">MS store</a>, install the distro</p>
+  </li>
+  <li>Set WSL 2 as your default version
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>C:<span class="se">\&gt;</span> wsl <span class="nt">--set-default-version</span> 2
+</code></pre></div>    </div>
+  </li>
+  <li>Set default username<br />
+Running Ubuntu from the start menu will need you to input the username and password for the first time once</li>
+</ol>
+
+<h3 id="accessing-wsl-directories">Accessing WSL directories</h3>
+
+<p>By default, WSL drive is shared by <code class="language-plaintext highlighter-rouge">\\wsl$\&lt;distro name&gt;</code> like <code class="language-plaintext highlighter-rouge">\\wsl$\Ubuntu-20.04</code>.
+<code class="language-plaintext highlighter-rouge">Cmd</code>+<code class="language-plaintext highlighter-rouge">R</code>, type <code class="language-plaintext highlighter-rouge">\\wsl$</code> and enter will show the Linux root directories.</p>
+
+<p>You can also map the drive by right click the directory.</p>
+
+<p><img src="/assets/images/2020/wsl2/mapdrive.jpg" alt="map drive" width="70%" style="margin: 0" /></p>
+
+<h3 id="sudo-without-password">Sudo without password</h3>
+
+<p>You can use sudo without password in your WSL</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>visudo
+</code></pre></div></div>
+
+<p>will show the editor and you can add</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">&lt;username&gt;</span> <span class="py">ALL</span><span class="p">=</span><span class="s">(ALL) NOPASSWD:ALL</span>
+</code></pre></div></div>
+
+<p>at last.</p>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">&lt;username&gt;</code> with yours and <code class="language-plaintext highlighter-rouge">^x</code>, <code class="language-plaintext highlighter-rouge">y</code>, <code class="language-plaintext highlighter-rouge">enter</code> to save and quit Nano.</p>
+
+<h3 id="managing-wsl-memory">Managing WSL memory</h3>
+
+<p>WSL2 shares your host memory but without a limit, it could drain your host memory.</p>
+
+<p>It is required to set the maximum at half of your entire memory. It will not use the maximum memory unless required.</p>
+
+<h4 id="limiting-maximum-memory-usage">Limiting maximum memory usage</h4>
+
+<p>Create <code class="language-plaintext highlighter-rouge">%USERPROFILE%\.wslconfig</code> with the following content</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[wsl2]</span>
+<span class="py">memory</span><span class="p">=</span><span class="s">4GB</span>
+</code></pre></div></div>
+
+<h4 id="reclaiming-wsl2-memory">Reclaiming WSL2 memory</h4>
+
+<p>On <a href="https://devblogs.microsoft.com/commandline/memory-reclaim-in-the-windows-subsystem-for-linux-2/" target="_blank">an MS blog article</a>, it says</p>
+
+<blockquote>
+  <p>In order to return as much memory to the host as possible, we periodically compact memory to ensure free memory is available in contiguous blocks.</p>
+</blockquote>
+
+<p>WSL kernel tries to return memory as much as possible but Linux still caches memory and WSL does not try to clear since it would affect the performance.</p>
+
+<p>If you want to give more memory to host, try this command on WSL,</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo </span>1 | <span class="nb">sudo tee</span> /proc/sys/vm/drop_caches
+</code></pre></div></div>
+
+<p>or on Windows, you can do</p>
+
+<pre><code class="language-dos">C:\&gt;bash -c "echo 1 | sudo tee /proc/sys/vm/drop_caches"
+</code></pre>
+
+<h3 id="ssh-to-wsl">SSH to WSL</h3>
+
+<p>Since WSL2 is a linux VM, you can install sshd in it. But to connect to the machine you will need the IP address.</p>
+
+<p>One of the issue on Hyper-v/WSL2 is you cannot make the VM’s IP address static. When the network connection has been changed, the host virtual network interface address are changed so the guest address is also changed. This would not happen so often but if it changed, you need to get the new address again.</p>
+
+<p>Recently I have found <a href="https://www.hanselman.com/blog/THEEASYWAYHowToSSHIntoBashAndWSL2OnWindows10FromAnExternalMachine.aspx" target="_blank">a nice article</a> to solve this issue.</p>
+
+<p>You can install Openssh server in Windows side and set the default shell as bash(WSL2).</p>
+
+<p>Following powershell commands will install Openssh server</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">Add-WindowsCapability</span><span class="w"> </span><span class="nt">-Online</span><span class="w"> </span><span class="nt">-Name</span><span class="w"> </span><span class="nx">OpenSSH.Server~~~~0.0.1.0</span><span class="w">
+</span><span class="nf">Set-Service</span><span class="w"> </span><span class="nt">-Name</span><span class="w"> </span><span class="nx">sshd</span><span class="w"> </span><span class="nt">-StartupType</span><span class="w"> </span><span class="s1">'Automatic'</span><span class="w">
+</span><span class="nf">Start-Service</span><span class="w"> </span><span class="nx">sshd</span><span class="w">
+</span><span class="nf">New-ItemProperty</span><span class="w"> </span><span class="nt">-Path</span><span class="w"> </span><span class="s2">"HKLM:\SOFTWARE\OpenSSH"</span><span class="w"> </span><span class="nt">-Name</span><span class="w"> </span><span class="nx">DefaultShell</span><span class="w"> </span><span class="nt">-Value</span><span class="w"> </span><span class="s2">"C:\WINDOWS\System32\bash.exe"</span><span class="w"> </span><span class="nt">-PropertyType</span><span class="w"> </span><span class="nx">String</span><span class="w"> </span><span class="nt">-Force</span><span class="w">
+</span></code></pre></div></div>
+
+<p>And try</p>
+
+<pre><code class="language-cmd">C:\&gt;ssh localhost
+</code></pre>
+<p>It will show ssh prompt to login with your Windows login password.</p>
+
+<p>If you have got used to <a href="https://putty.org/" target="_blank">Putty</a> or <a href="http://www.9bis.net/kitty/#!index.md" target="_blank">Kitty</a>, now you can use it as a terminal.</p>
+
+<p><img src="/assets/images/2020/wsl2/tmux.jpg" alt="TMUX" width="70%" style="margin: 0" /></p>
+
+<p>Tmux is a command line session manager. Visit the <a href="https://github.com/tmux/tmux/wiki" target="_blank">Official Wiki</a> if you are interested.</p>
+
+<h4 id="ssh-without-the-password">ssh without the password</h4>
+
+<p>If you register your public key (id_rsa.pub usually) to <code class="language-plaintext highlighter-rouge">.ssh/authorized_keys</code> file, you can connect without the password.</p>
+
+<p>But if you belong to the Administrators group, you should add the public key to <code class="language-plaintext highlighter-rouge">%programdata%/ssh/administrators_authorized_keys</code>.</p>
+
+<h3 id="using-linux-gui-apps">Using Linux GUI Apps</h3>
+
+<p>GUI is not supported in WSL. But if you can use XServer, Linux GUI apps can be used in Windows side. Try VCXSrv project. It’s an opensource X11 server. <a href="https://sourceforge.net/projects/vcxsrv/" target="_blank">Download it here</a> and install.</p>
+
+<h4 id="launching-x-server">Launching X server</h4>
+
+<p><img src="/assets/images/2020/wsl2/vcxsrv-access-control.jpg" alt="VCXSrv Xlaunch" width="70%" style="margin: 0" /></p>
+
+<p>Run XLaunch and it will ask some settings. Don’t forget to turn on <code class="language-plaintext highlighter-rouge">Disable access control</code>. If you save the setting on the Desktop, you can use the config file to launch the server without setting it again.</p>
+
+<p><img src="/assets/images/2020/wsl2/vcxsrv-save.jpg" alt="VCXSrv Save" width="70%" style="margin: 0" /></p>
+
+<p>When you launch vcxsrv for the first time, Windows Security Alert will ask if you allow that but by default, private access is only allowed but you actually need both private and public.</p>
+
+<p><img src="/assets/images/2020/wsl2/vcxsrv-security-alert.jpg" alt="VCXSrv Save" width="70%" style="margin: 0" /></p>
+
+<p>If you have just allowed only private, or not sure, check Windows firewall.</p>
+
+<p><img src="/assets/images/2020/wsl2/firewall.jpg" alt="firewall" width="70%" style="margin: 0" /></p>
+
+<p>And allow all the 4 items in the Windows Defender Firewall with Advanced Security if you haven’t yet.</p>
+
+<p><img src="/assets/images/2020/wsl2/vcsxrv-icon.jpg" alt="firewall" width="30%" style="margin: 0" /></p>
+
+<p>You will have this icon in the system tray.</p>
+
+<h4 id="setting-display-env-variable">Setting DISPLAY env variable</h4>
+
+<p>You will also need to set DISPLAY env var in the WSL side. Because the host network address is not fixed, you might need to run the following before you use. Save the following to like <code class="language-plaintext highlighter-rouge">~/setDisplay</code> and run <code class="language-plaintext highlighter-rouge">source ~/setDisplay</code> or jusr <code class="language-plaintext highlighter-rouge">. ~/setDisplay</code>.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span><span class="si">$(</span><span class="nb">awk</span> <span class="s1">'/nameserver / {print $2; exit}'</span> /etc/resolv.conf 2&gt;/dev/null<span class="si">)</span>:0
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">LIBGL_ALWAYS_INDIRECT</span><span class="o">=</span>1
+</code></pre></div></div>
+
+<h4 id="trying-a-linux-app">Trying a Linux app</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt install stacer
+$ export DISPLAY=$(awk '/nameserver / {print $2; exit}' /etc/resolv.conf 2&gt;/dev/null):0
+$ export LIBGL_ALWAYS_INDIRECT=1
+$ stacer
+</code></pre></div></div>
+
+<p>Those commands will install Stacer and launch in Windows side</p>
+
+<p><img src="/assets/images/2020/wsl2/stacer.jpg" alt="firewall" width="70%" style="margin: 0" /></p>
+
+<h2 id="docker-desktop">Docker Desktop</h2>
+
+<p>Installing Docker on Windows is simple.
+Just <a href="https://hub.docker.com/editions/community/docker-ce-desktop-windows/" target="_blank">download it here</a> and install.</p>
+
+<p>Since it provide a predefined service like an app, many projects utilise Docker in their project. But Using docker in Windows could be challenging due to the difference of the file system.</p>
+
+<p>There is <a href="https://www.docker.com/blog/docker-desktop-wsl-2-best-practices/" target="_blank">a nice blog article from Docker</a>.</p>
+
+<p>Even if your project does not require Docker, it would be beneficial.</p>
+
+<p>For example, if you are not a ruby developer but if you want to use ruby for like writing a jekyll blog.
+You can use Docker to do that without installing all the ruby tools.</p>
+
+<p>Moreover, you can install apps and Docker can start it always. How about getting a local music player for local files, <a href="https://github.com/airsonic/airsonic" target="_blank">Airsonic</a> (<a href="https://hub.docker.com/r/airsonic/airsonic" target="_blank">Docker hub</a>)</p>
+
+<h3 id="limiting-container-memory">Limiting container memory</h3>
+
+<p>Using docker-compose is easier to manage the containers.</p>
+
+<p>You can manage multiple containers
+and save all the options in the file and creating, start, stop and removing are quite handy.
+Conatainers can be named using <code class="language-plaintext highlighter-rouge">container_name</code> BTW.</p>
+
+<p>If you have not used it yet, please leran more <a href="https://docs.docker.com/compose/" target="_blank">about docker-compose</a></p>
+
+<p>Use docker-compose version 2 (2.4 is latest at the point of writing this article) if you are not using Swarm.</p>
+
+<p><code class="language-plaintext highlighter-rouge">mem_limit: 512m</code> will limit the memory usage to 512M</p>
+
+<p>** This can also be done by <code class="language-plaintext highlighter-rouge">--memory=512m</code> using docker</p>
+
+<h2 id="vscode">VSCode</h2>
+
+<p>vscode seems like being a de facto standard. If you’re not a big fan of the other fancy editors, you can use this.</p>
+
+<p>There is <a href="https://code.visualstudio.com/docs/remote/wsl" target="_blank">a nice document from MS</a></p>
+
+<h3 id="where-should-the-project-files-be-placed">Where should the project files be placed</h3>
+
+<p>If your project is using docker and watching your source code and try to rebuild, it <a href="https://github.com/microsoft/WSL/issues/216" target="_blank">will not be working in Windows</a>. This could be challenging to know the reason why.</p>
+
+<p>If you are using windows dev tools you can keep source files in Windows side.</p>
+
+<p>If you want to avoid hassles, just stay only in the WSL side.</p>
+
+<h2 id="defender-antivirus-exclusion">Defender Antivirus Exclusion</h2>
+
+<p>You can put the all repo, project files in one directory in your home directory such as <code class="language-plaintext highlighter-rouge">Projects</code>. Usually it could create many automatically generated files in it.</p>
+
+<p>For example, <code class="language-plaintext highlighter-rouge">node_modules</code>, <code class="language-plaintext highlighter-rouge">.bundle</code>, <code class="language-plaintext highlighter-rouge">vendor</code>, <code class="language-plaintext highlighter-rouge">build</code> or so on.</p>
+
+<p>You can speed up by excluding Antivirus scanning.</p>
+
+<p>If you feel some building process is quite slow, you can turn on the task manager and locate <code class="language-plaintext highlighter-rouge">Antimalware Service Executable</code> and if that consumes CPU over 10%, consider adding some more exclusion.</p>
+
+<p><img src="/assets/images/2020/wsl2/exclusion.jpg" alt="Antivirus Exclusion" width="70%" style="margin: 0" /></p>
+
+<h2 id="optionals">Optionals</h2>
+
+<h3 id="chocolatey-package-manager">Chocolatey, package manager</h3>
+
+<p>It has so less hassles to install all the tools manually. It is like using Homebrew (brew) in mac.</p>
+
+<p><a href="https://chocolatey.org/" target="_blank">Chocolatey Official Site</a></p>
+
+<h3 id="using-nodejs-in-windows-side">Using Node.js in Windows side</h3>
+
+<p>If you are a frontend developer or nodejs developer, you would have already Node.js installed.
+The latest Node.js installer actually includes build tools and package manager for Windows, Chocolatey. Don’t forget to install necessary tools. Unless you would have some error while building binary packages.</p>
+
+<p><img src="/assets/images/2020/wsl2/install-choco.jpg" alt="Node.js Choco" width="70%" style="margin: 0" /></p>
+
+<p>When it is used in Gitbash, it is better. Even if your projects uses bash scripts which is usually not supported in Windows, you can still run it with git-bash.</p>
+
+<p>You will need to exclude npm/yarn cache from Defender Antivirus setting.</p>
+
+<pre><code class="language-cmd">%APPDATA%\npm-cache
+%LOCALAPPDATA%\Yarn
+</code></pre>
+
+<h2 id="say-hello-to-windows">Say Hello to Windows</h2>
+
+<p>Thanks to WSL2, Windows machine is also have been developer friendly. Docker performance it not worse than OSX and you can use it on Home Edition too. It actually has a better multiple display experience than OSX and Cleartype will give you a better font rendering in full HD display (might be a personal preference though). Edge browser is now chromium based.</p>
+
+<p>I still don’t like too many rebooting but I would choose next dev machine as a Windows laptop :)</p>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/" style="background-image: url(/assets/images/profile.png)">
+                    <span class="hidden">Kenny Yeo's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> Kenny Yeo </h4>
+                    <!-- Author Bio -->
+                    <p>
+                      A NodeJS Fullstack SW Engineer at Whitech Software Solution(a Fujifilm group company)<br />
+                      <a href="https://github.com/kennyhyun" target="_blank">Github</a> | <a href="https://www.linkedin.com/in/khyunyeo/">Linkedin</a>
+                    </p>
+                </section>
+            
+
+            <!-- Share links section -->
+            <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text=Setting up Windows for developers with WSL2&amp;url=https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html"
+        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+            <!-- Disqus comments -->
+            
+                <section class="disqus">
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+     this.page.url = "https://kenny.yeoyou.net/it/2020/09/10/windows-development-environment.html";
+     this.page.identifier = "/it/2020/09/10/windows-development-environment.html";
+    };
+
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://kennyyeoyounet.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+</section>
+
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="">Kenny on IT</a> &copy; 
+              2020 &bull; All rights reserved.
+      </section>
+      <section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>
+    </footer>
+    
+    <script type="text/javascript" src="/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxxxxxxx"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-xxxxxxxx');
+    </script>
+</body>
+</html>
