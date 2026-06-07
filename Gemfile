@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-gem 'jekyll', '~> 4.4'
+gem 'jekyll'
 
 group :jekyll_plugins do
-  gem 'jekyll-timeago', '~> 0.13.1'
-  gem 'jekyll-paginate', '~> 1.1.0'
+  gem 'jekyll-timeago'
+  gem 'jekyll-paginate'
   gem 'jekyll-multiple-languages-plugin'
 end
 
-gem "jekyll-seo-tag", "~> 2.8"
+gem 'jekyll-seo-tag'
