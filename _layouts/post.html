@@ -85,7 +85,7 @@ disqus: true
             {% include share.html %}
 
             <!-- Disqus comments -->
-            {% if page.disqus or layout.disqus %}
+            {% if page.disqus != false and layout.disqus %}
                 {% include disqus.html %}
             {% endif %}
 
