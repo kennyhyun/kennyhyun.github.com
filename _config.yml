@@ -12,7 +12,9 @@ exclude:
 baseurl: ""
 
 domain_name: "https://kenny.yeoyou.net"
-google_analytics: "UA-xxxxxxxx"
+# GA4 Measurement ID (format: G-XXXXXXXXXX)
+# UA (Universal Analytics) was sunset in July 2023
+google_analytics: "G-XXXXXXXXXX"
 
 plugins:
   - jekyll-multiple-languages-plugin
