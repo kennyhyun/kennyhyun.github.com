@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'jekyll', '~> 4.1'
+gem 'jekyll', '~> 4.4'
 
 group :jekyll_plugins do
   gem 'jekyll-timeago', '~> 0.13.1'
@@ -8,4 +8,4 @@ group :jekyll_plugins do
   gem 'jekyll-multiple-languages-plugin'
 end
 
-gem "jekyll-seo-tag", "~> 2.6"
+gem "jekyll-seo-tag", "~> 2.8"
